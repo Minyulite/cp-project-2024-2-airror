@@ -11,6 +11,7 @@ public class GoTo {
 
 	public static void goToMainPage() {
 		ScrollPane root = new ScrollPane(MainPage.getInstance());
+		
 		root.setHbarPolicy(ScrollBarPolicy.NEVER);
 		if (MyApplication.getScene() == null) {
 //			MyApplication.scene = new Scene(root, 800, 800);

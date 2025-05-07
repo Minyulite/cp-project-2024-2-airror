@@ -19,27 +19,31 @@ import java.util.ArrayList;
 
 public class SearchPane extends VBox implements Searchable {
 	public static SearchPane searchPageInstance = null;
-	public static ArrayList<String> airports = IOReader.getStringsFromTextFile("res/text/Asian_Airports_Abbreviated.txt");
-	
+	public static ArrayList<String> airports = IOReader
+			.getStringsFromTextFile("res/text/Asian_Airports_Abbreviated.txt");
+
 	public SearchPane(String condition) {
 //		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 		addSearchEachPane(condition);
 	}
-	
+
 	@Override
 	public void addSearchEachPane(Object obj) {
 		String condition = (String) obj;
 		int i = 0;
-		for(String airport : airports) {
-			if(airport == "" || airport.toLowerCase().contains(condition.toLowerCase())) {
-				//not yet add EventListener!!!!!
-				SearchEachPane searchEachPage = new SearchEachPane(airport, 280);
-				this.getChildren().add(searchEachPage);					
-				searchEachPage.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
-				if(i%2 == 0) {
-					searchEachPage.setBackground(new Background(new BackgroundFill(Color.web("#d4d1cb"), CornerRadii.EMPTY, Insets.EMPTY)));
-				}else {
-					searchEachPage.setBackground(new Background(new BackgroundFill(Color.web("#e8e7e6"), CornerRadii.EMPTY, Insets.EMPTY)));
+		for (String airport : airports) {
+			if (airport == "" || airport.toLowerCase().contains(condition.toLowerCase())) {
+				// not yet add EventListener!!!!!
+				SearchEachPane searchEachPane = new SearchEachPane(airport, 280);
+				this.getChildren().add(searchEachPane);
+				searchEachPane.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
+						CornerRadii.EMPTY, new BorderWidths(1))));
+				if (i % 2 == 0) {
+					searchEachPane.setBackground(
+							new Background(new BackgroundFill(Color.web("#d4d1cb"), CornerRadii.EMPTY, Insets.EMPTY)));
+				} else {
+					searchEachPane.setBackground(
+							new Background(new BackgroundFill(Color.web("#e8e7e6"), CornerRadii.EMPTY, Insets.EMPTY)));
 				}
 				++i;
 			}

@@ -1,5 +1,6 @@
 package pages;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -19,6 +20,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
@@ -78,7 +80,37 @@ public class MainPage extends AnchorPane {
 		
 		//**middle**//
 		setMiddle(gc);
-
+		
+//		gc.fillRect(0, UIComponent.USER_MAX_SCREEN_HEIGHT, UIComponent.USER_MAX_SCREEN_WIDTH, 2000);
+		//**ads"//
+		setAds(gc);
+		
+	}
+	
+	public void setAds(GraphicsContext gc) {
+		new Thread(() -> {
+			int start = 0;
+			Image ads = UIComponent.getImage("img/ads.png", 1847/461*325, 520, true, true);
+			while(true) {
+//				ImageView ads = UIComponent.getImageView("img/ads.png", 325, true);
+				WritableImage croppedImage = new WritableImage(ads.getPixelReader(), start, 0, (int)(ads.getWidth()/2) - 10, (int)ads.getHeight());
+				Platform.runLater(() -> {
+					gc.drawImage(croppedImage, (UIComponent.USER_MAX_SCREEN_WIDTH - 980)/2 + 175, 520);					
+				});
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//				MainPage.setTopLeftAnchor(ads, (UIComponent.USER_MAX_SCREEN_WIDTH - 1847/461*325)/2, 520);
+				start += 3.5;
+				if(start > (int)(ads.getWidth())/2) {
+					start = 0;
+				}
+			}
+		}).start();
+		
 	}
 	
 	public static void setFont(Label[] arr, Font font) {
@@ -94,6 +126,8 @@ public class MainPage extends AnchorPane {
 	
 	public void setStyle() {
 		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
+//		this.setPrefHeight(UIComponent.USER_MAX_SCREEN_HEIGHT + 300);
+//		this.setMaxHeight(UIComponent.USER_MAX_SCREEN_HEIGHT + 300);
 	}
 	
 	public void setHeader(GraphicsContext gc) {

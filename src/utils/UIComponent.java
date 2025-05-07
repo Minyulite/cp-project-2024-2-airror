@@ -39,7 +39,7 @@ public class UIComponent {
 		return text;
 	}
 	
-	public static ImageView getImageView(String url_string, int fitHeight, boolean isPreserveRatio) {
+	public static ImageView getImageView(String url_string, double fitHeight, boolean isPreserveRatio) {
 		ImageView imageView = new ImageView(ClassLoader.getSystemResource(url_string).toString());
 		imageView.setFitHeight(fitHeight);
 		imageView.setPreserveRatio(isPreserveRatio);
@@ -48,6 +48,10 @@ public class UIComponent {
 	
 	public static Image getImage(String url_string) {
 		return new Image(ClassLoader.getSystemResource(url_string).toString());
+	}
+	
+	public static Image getImage(String url_string, double requestedWidth, double requestedHeight, boolean preserveRatio, boolean smooth) {
+		return new Image(ClassLoader.getSystemResource(url_string).toString(), requestedWidth, requestedHeight, preserveRatio, smooth);
 	}
 	
 	public static TextField getTextField(String text, int prefWidth, int prefHeight) {
