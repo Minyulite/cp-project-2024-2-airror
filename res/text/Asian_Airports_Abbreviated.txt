@@ -1,0 +1,20 @@
+BKK - Suvarnabhumi Airport
+DMK - Don Mueang International Airport
+CNX - Chiang Mai International Airport
+SIN - Changi Airport
+KUL - Kuala Lumpur International Airport
+CGK - Soekarno–Hatta International Airport
+NRT - Narita International Airport
+HND - Haneda Airport
+ICN - Incheon International Airport
+HKG - Hong Kong International Airport
+TPE - Taoyuan International Airport
+MNL - Ninoy Aquino International Airport
+HAN - Noi Bai International Airport
+SGN - Tan Son Nhat International Airport
+DEL - Indira Gandhi International Airport
+BOM - Chhatrapati Shivaji Maharaj International Airport
+PVG - Pudong International Airport
+PEK - Beijing Capital International Airport
+PKX - Beijing Daxing International Airport
+DXB - Dubai International Airport
