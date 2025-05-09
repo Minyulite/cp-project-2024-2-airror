@@ -1,6 +1,7 @@
 package application;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -19,12 +20,45 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import logics.FlightData;
+import panes.SearchFlightAvailablePane;
+import utils.IOReaderWriter;
 
 public class HelloWorld extends Application {
 	
 	public static Scene scene = null;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
+		IOReaderWriter.writeListOfFlightData(SearchFlightAvailablePane.flightsList, "res/text/pending.txt");
+//		String date = "08/09/2005";
+//		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//		LocalDate ld = LocalDate.parse(date, dtf);
+//		LocalDate ld2 = ld;
+//		System.out.println(ld2.format(dtf));
+//		System.out.println(ld.format(dtf));
+//		Thread t = new Thread(() -> {
+//			for(int i = 0; i < 100; ++i) {
+//				System.out.println("ha");
+//				if(Thread.currentThread().isInterrupted()) {
+//					break;
+//				}
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					Thread.currentThread().interrupt();
+//					break;
+//				}
+//			}
+//			System.out.println("WHAT");
+//		});
+//		System.out.println(t.getState());
+//		t.start();
+//		System.out.println(t.getState());
+//		t.interrupt();
+//		Thread.sleep(1000);
+//		System.out.println(t.getState());
+//		t.start();
 //		String s = null;
 //		System.out.println(s.toString());
 //		LocalDate d1 = LocalDate.now();
@@ -48,11 +82,16 @@ public class HelloWorld extends Application {
 //		}).start();
 //		String str = "";
 //		System.out.println(str == null);
-		launch(args);
+//		launch(args);
 	}
 	
 	@Override
 	public void start(Stage primaryStage) {
+//		ArrayList<FlightData> flightsList = IOReaderWriter.getFlightsList("res/text/fly_list.txt");
+//		for(FlightData f : flightsList) {
+//			System.out.println(f.getAirlineName() + " " +  f.getArrivalTime() + " " +  f.getDepartAbbr() + " " +  f.getDepartTime() + " " +  f.getDestinyAbbr() + " " +  
+//				" " + f.getPrice() + " " + f.getDepartDate().toString());
+//		}
 		StackPane root = new StackPane();
 		TextField textField = new TextField();
 		ArrayList<Parent> arrList = new ArrayList<>();
@@ -61,7 +100,6 @@ public class HelloWorld extends Application {
 //			System.out.println(choiceBox.getValue());
 //		});
 		System.out.println(textField.getText());
-		root.getChildren().add(textField);
 //		StackPane root = new StackPane();
 //		DatePicker datePicker = new DatePicker();
 //		root.getChildren().add(datePicker);

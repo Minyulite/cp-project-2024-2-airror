@@ -1,0 +1,20 @@
+BKK,Bangkok  
+DMK,Bangkok  
+CNX,Chiang Mai  
+SIN,Singapore  
+KUL,Kuala Lumpur  
+CGK,Jakarta  
+NRT,Tokyo  
+HND,Tokyo  
+ICN,Seoul  
+HKG,Hong Kong  
+TPE,Taipei  
+MNL,Manila  
+HAN,Hanoi  
+SGN,Ho Chi Minh City  
+DEL,Delhi  
+BOM,Mumbai  
+PVG,Shanghai  
+PEK,Beijing  
+PKX,Beijing  
+DXB,Dubai 

@@ -1,4 +1,4 @@
-Economy
-Premium Economy
-Business
+Economy Class
+Premium Economy Class
+Business Class
 First-Class

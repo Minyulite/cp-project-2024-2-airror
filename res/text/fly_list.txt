@@ -1,0 +1,20 @@
+BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Chicken airline,18:00,19:15,2000,07/05/2025
+DMK,Don Mueang International Airport,HKG,Hong Kong International Airport,Penguin airline,09:00,13:00,4200,07/05/2025
+CNX,Chiang Mai International Airport,ICN,Incheon International Airport,Goat airline,23:50,07:15,6800,07/05/2025
+SIN,Changi Airport,KUL,Kuala Lumpur International Airport,Giraffe airline,12:30,13:30,1500,07/05/2025
+KUL,Kuala Lumpur International Airport,DMK,Don Mueang International Airport,Banana airline,10:45,12:15,1800,07/05/2025
+BKK,Suvarnabhumi Airport,NRT,Narita International Airport,Shiba airline,22:00,06:00,7200,07/05/2025
+HND,Haneda Airport,BKK,Suvarnabhumi Airport,Chicken airline,10:30,15:00,7300,07/05/2025
+ICN,Incheon International Airport,PEK,Beijing Capital International Airport,Goat airline,08:00,10:20,4500,07/05/2025
+HKG,Hong Kong International Airport,TPE,Taoyuan International Airport,Penguin airline,15:00,16:50,2600,07/05/2025
+TPE,Taoyuan International Airport,SGN,Tan Son Nhat International Airport,Shiba airline,21:00,23:30,3700,07/05/2025
+MNL,Ninoy Aquino International Airport,HAN,Noi Bai International Airport,Banana airline,16:15,18:30,2900,07/05/2025
+SGN,Tan Son Nhat International Airport,BOM,Chhatrapati Shivaji Maharaj International Airport,Giraffe airline,23:00,03:30,7700,07/05/2025
+DEL,Indira Gandhi International Airport,DXB,Dubai International Airport,Goat airline,18:40,21:00,6100,08/05/2025
+DXB,Dubai International Airport,BKK,Suvarnabhumi Airport,Chicken airline,03:00,12:30,8600,08/05/2025
+PKX,Beijing Daxing International Airport,HKG,Hong Kong International Airport,Penguin airline,13:00,16:00,4200,08/05/2025
+CGK,Soekarno–Hatta International Airport,SIN,Changi Airport,Shiba airline,06:00,08:30,2100,08/05/2025
+CNX,Chiang Mai International Airport,DMK,Don Mueang International Airport,Giraffe airline,14:00,15:15,1900,08/05/2025
+PEK,Beijing Capital International Airport,ICN,Incheon International Airport,Banana airline,11:45,14:15,4700,08/05/2025
+NRT,Narita International Airport,TPE,Taoyuan International Airport,Goat airline,09:10,12:00,5100,08/05/2025
+HAN,Noi Bai International Airport,KUL,Kuala Lumpur International Airport,Chicken airline,13:20,16:30,3400,08/05/2025

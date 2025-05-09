@@ -27,6 +27,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import pages.MainPage;
 import utils.GoTo;
+import utils.IOReaderWriter;
 import utils.UIComponent;
 
 public class MyApplication extends Application {

@@ -1,93 +1,123 @@
 package logics;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 
 public class FlightData {
-	private String departField, destinyField;
-	private LocalDate departDate, destinyDate;
-	private int adultField, childrenField, toddlerField;
-	private boolean isReturn;
-	private String classes;
-	
-	public FlightData(String departField, String destinyField, LocalDate departDate, LocalDate destinyDate,
-			int adultField, int childrenField, int toddlerField, Boolean isReturn, String classes) {
-		this.setDepartField(departField);
-		this.setDestinyField(destinyField);
+	private String departAbbr;
+	private String destinyAbbr;
+	private String airlineName;
+	private String departAirportName;
+	private String destinyAirportName;
+	private ImageView airlineImage;
+	private String departTime;
+	private String arrivalTime;
+
+	private double price;
+	private LocalDate departDate;
+
+	public FlightData(String departAbbr, String departAirportName, String destinyAbbr, String destinyAirportName,
+			String airlineName, ImageView airlineImage, String departTime, String arrivalTime, double price,
+			LocalDate departDate) {
+		this.setDepartAbbr(departAbbr);
+		this.setDepartAirportName(departAirportName);
+		this.setDestinyAbbr(destinyAbbr);
+		this.setDestinyAirportName(destinyAirportName);
+		this.setAirlineName(airlineName);
+		this.setAirlineImage(airlineImage);
+		this.setDepartTime(departTime);
+		this.setArrivalTime(arrivalTime);
+		this.setPrice(price);
 		this.setDepartDate(departDate);
-		this.setDestinyDate(destinyDate);
-		this.setAdultField(adultField);
-		this.setChildrenField(childrenField);
-		this.setToddlerField(toddlerField);
-		this.setReturn(isReturn);
-		this.setClasses(classes);
 	}
-	
-	public static boolean isCorrectData(String departField, String destinyField, LocalDate departDate, LocalDate destinyDate,
-			int adultField, int childrenField, int toddlerField, Boolean isReturn, String classes) {
-		int total = adultField + childrenField + toddlerField;
-		System.out.println(departDate);
-		if(departField == null || destinyField == null || departDate == null || total == 0 || (isReturn && destinyDate == null)
-			|| total == 0 || classes == null) {
-			return false;
-		}
-		return true;
+
+	@Override
+	public String toString() {
+		return this.getDepartAbbr() + "," + this.getDepartAirportName() + "," + this.getDestinyAbbr() + ","
+				+ this.getDestinyAirportName() + "," + this.getAirlineName() + "," + this.getDepartTime() + ","
+				+ this.getArrivalTime() + "," + this.getPrice() + ","
+				+ this.getDepartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
-	
-	public String getDepartField() {
-		return departField;
+
+	public String getDepartAirportName() {
+		return departAirportName;
 	}
-	public void setDepartField(String departField) {
-		this.departField = departField;
+
+	public void setDepartAirportName(String departAirportName) {
+		this.departAirportName = departAirportName;
 	}
-	public String getDestinyField() {
-		return destinyField;
+
+	public String getDestinyAirportName() {
+		return destinyAirportName;
 	}
-	public void setDestinyField(String destinyField) {
-		this.destinyField = destinyField;
+
+	public void setDestinyAirportName(String destinyAirportName) {
+		this.destinyAirportName = destinyAirportName;
 	}
+
 	public LocalDate getDepartDate() {
 		return departDate;
 	}
+
 	public void setDepartDate(LocalDate departDate) {
 		this.departDate = departDate;
 	}
-	public LocalDate getDestinyDate() {
-		return destinyDate;
+
+	public String getDepartAbbr() {
+		return departAbbr;
 	}
-	public void setDestinyDate(LocalDate destinyDate) {
-		this.destinyDate = destinyDate;
+
+	public void setDepartAbbr(String departAbbr) {
+		this.departAbbr = departAbbr;
 	}
-	public int getAdultField() {
-		return adultField;
+
+	public String getDestinyAbbr() {
+		return destinyAbbr;
 	}
-	public void setAdultField(int adultField) {
-		this.adultField = adultField;
+
+	public void setDestinyAbbr(String destinyAbbr) {
+		this.destinyAbbr = destinyAbbr;
 	}
-	public int getChildrenField() {
-		return childrenField;
+
+	public String getAirlineName() {
+		return airlineName;
 	}
-	public void setChildrenField(int childrenField) {
-		this.childrenField = childrenField;
+
+	public void setAirlineName(String airlineName) {
+		this.airlineName = airlineName;
 	}
-	public int getToddlerField() {
-		return toddlerField;
+
+	public ImageView getAirlineImage() {
+		return airlineImage;
 	}
-	public void setToddlerField(int toddlerField) {
-		this.toddlerField = toddlerField;
+
+	public void setAirlineImage(ImageView airlineImage) {
+		this.airlineImage = airlineImage;
 	}
-	public boolean isReturn() {
-		return isReturn;
+
+	public String getDepartTime() {
+		return departTime;
 	}
-	public void setReturn(boolean isReturn) {
-		this.isReturn = isReturn;
+
+	public void setDepartTime(String departTime) {
+		this.departTime = departTime;
 	}
-	public String getClasses() {
-		return classes;
+
+	public String getArrivalTime() {
+		return arrivalTime;
 	}
-	public void setClasses(String classes) {
-		this.classes = classes;
+
+	public void setArrivalTime(String arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 }

@@ -68,6 +68,37 @@ public class UIComponent {
 		return;
 	}
 	
+	public static int strHourToIntMin(String time) {
+		String[] splitted = time.split(":");
+		return Integer.parseInt(splitted[0]) * 60 + Integer.parseInt(splitted[1]);
+	}
+	
+	public static String intMintoStrHour(int time) {
+		int hour = time / 60;
+		int min = time % 60;
+		return hour + (hour > 1? " hrs " : " hr ") + min + (min <= 1? " min" : " mins");
+	}
+	
+	public static int getDuration(String departTime, String arrivalTime) {
+		int duration = UIComponent.strHourToIntMin(arrivalTime) - UIComponent.strHourToIntMin(departTime);
+		if(duration < 0) duration += 1440;
+		return duration;
+	}
+	
+	public static boolean isBefore(String time1, String time2) {
+		String[] sp1 = time1.split("/");
+		String[] sp2 = time2.split("/");
+		int[] t1 = {Integer.parseInt(sp1[0]), Integer.parseInt(sp1[1]), Integer.parseInt(sp1[2])};
+		int[] t2 = {Integer.parseInt(sp2[0]), Integer.parseInt(sp2[1]), Integer.parseInt(sp2[2])};
+
+		if(t1[2] < t2[2]) return true;
+		else if(t1[2] > t2[2]) return false;
+		else if(t1[1] < t2[1]) return true;
+		else if(t1[1] > t2[1]) return false;
+		else if(t1[0] <= t2[0]) return true;
+		return false;
+	}
+	
 	public static DatePicker getDatePicker() {
 		return new DatePicker();
 	}

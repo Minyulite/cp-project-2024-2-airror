@@ -3,6 +3,7 @@ package panes;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -13,28 +14,41 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import utils.IOReader;
+import pages.MainPage;
+import utils.IOReaderWriter;
 import interfaces.Searchable;
 import java.util.ArrayList;
 
 public class SearchPane extends VBox implements Searchable {
 	public static SearchPane searchPageInstance = null;
-	public static ArrayList<String> airports = IOReader
+	public static ArrayList<String> airports = IOReaderWriter
 			.getStringsFromTextFile("res/text/Asian_Airports_Abbreviated.txt");
 
 	public SearchPane(String condition) {
 //		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-		addSearchEachPane(condition);
+		String[] splitted = condition.strip().split(" ");
+		addSearchEachPane(splitted);
 	}
 
 	@Override
 	public void addSearchEachPane(Object obj) {
-		String condition = (String) obj;
+		String[] condition = (String[]) obj;
 		int i = 0;
 		for (String airport : airports) {
-			if (airport == "" || airport.toLowerCase().contains(condition.toLowerCase())) {
+			if (condition.length == 1 || airport.toLowerCase().contains(condition[0].toLowerCase())) {
 				// not yet add EventListener!!!!!
 				SearchEachPane searchEachPane = new SearchEachPane(airport, 280);
+				searchEachPane.setOnMouseClicked((event) -> {
+					if(condition[condition.length - 1].equals("1")) {
+						MainPage.departField.setText(airport);
+						MainPage.getInstance().getChildren().remove(MainPage.departSearchBar);
+						MainPage.departSearchBar = null;
+					}else {
+						MainPage.destinyField.setText(airport);
+						MainPage.getInstance().getChildren().remove(MainPage.destinySearchBar);
+						MainPage.destinySearchBar = null;
+					}
+				});
 				this.getChildren().add(searchEachPane);
 				searchEachPane.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
 						CornerRadii.EMPTY, new BorderWidths(1))));

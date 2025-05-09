@@ -37,10 +37,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
-import logics.FlightData;
+import logics.RequestData;
 import logics.UserData;
 import utils.GoTo;
-import utils.IOReader;
+import utils.IOReaderWriter;
 import utils.UIComponent;
 import application.MyApplication;
 import exceptions.IncorrectFillFormException;
@@ -50,14 +50,12 @@ import panes.SearchPane;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-public class MainPage extends AnchorPane {
+public class MainPage extends Pages {
 	public static MainPage mainPageInstance = null;
-	public static Canvas canvas = null;
 	public static ScrollPane departSearchBar = null;
 	public static ScrollPane destinySearchBar = null;
-	
-	public static TextField departField = null; 
+
+	public static TextField departField = null;
 	public static TextField destinyField = null;
 	public static DatePicker departDatePicker = null;
 	public static DatePicker destinyDatePicker = null;
@@ -66,87 +64,89 @@ public class MainPage extends AnchorPane {
 	public static TextField toddlerField = null;
 	public static CheckBox checkBox = null;
 	public static ChoiceBox<String> choiceBox = null;
-	
-	
+
+	public static Thread adsThread = null;
+
 	private MainPage() {
-		//initiate canvas
-		this.getChildren().add(MainPage.getCanvas());
+		// initiate canvas
+		this.getChildren().add(this.getCanvas());
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		
+
 		setStyle();
-		
-		//**header**//
+
+		// **header**//
 		setHeader(gc);
-		
-		//**middle**//
+
+		// **middle**//
 		setMiddle(gc);
-		
+
 //		gc.fillRect(0, UIComponent.USER_MAX_SCREEN_HEIGHT, UIComponent.USER_MAX_SCREEN_WIDTH, 2000);
-		//**ads"//
-		setAds(gc);
-		
+		// **ads"//
+//		setAds(gc);
+
 	}
-	
+
 	public void setAds(GraphicsContext gc) {
-		new Thread(() -> {
+
+		adsThread = new Thread(() -> {
 			int start = 0;
-			Image ads = UIComponent.getImage("img/ads.png", 1847/461*325, 520, true, true);
-			while(true) {
+			Image ads = UIComponent.getImage("img/ads.png", 1847 / 461 * 325, 520, true, true);
+			while (true) {
 //				ImageView ads = UIComponent.getImageView("img/ads.png", 325, true);
-				WritableImage croppedImage = new WritableImage(ads.getPixelReader(), start, 0, (int)(ads.getWidth()/2) - 10, (int)ads.getHeight());
+				if(Thread.currentThread().isInterrupted()) {
+					break;
+				}
+				WritableImage croppedImage = new WritableImage(ads.getPixelReader(), start, 0,
+						(int) (ads.getWidth() / 2) - 10, (int) ads.getHeight());
 				Platform.runLater(() -> {
-					gc.drawImage(croppedImage, (UIComponent.USER_MAX_SCREEN_WIDTH - 980)/2 + 175, 520);					
+					gc.clearRect((UIComponent.USER_MAX_SCREEN_WIDTH - 980) / 2 + 175, 520, (int) (ads.getWidth() / 2) - 10, (int) ads.getHeight());
+					gc.drawImage(croppedImage, (UIComponent.USER_MAX_SCREEN_WIDTH - 980) / 2 + 175, 520);
 				});
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					break;
+//					e.printStackTrace();
 				}
 //				MainPage.setTopLeftAnchor(ads, (UIComponent.USER_MAX_SCREEN_WIDTH - 1847/461*325)/2, 520);
 				start += 3.5;
-				if(start > (int)(ads.getWidth())/2) {
+				if (start > (int) (ads.getWidth()) / 2) {
 					start = 0;
 				}
 			}
-		}).start();
-		
+		});
+
+		adsThread.start();
+
 	}
-	
+
 	public static void setFont(Label[] arr, Font font) {
-		for(Label node : arr) {
+		for (Label node : arr) {
 			node.setFont(font);
 		}
 	}
-	
-	public static void setTopLeftAnchor(Node node, double left, double top) {
-		MainPage.setTopAnchor(node, top);
-		MainPage.setLeftAnchor(node, left);
-	}
-	
+
 	public void setStyle() {
 		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
 //		this.setPrefHeight(UIComponent.USER_MAX_SCREEN_HEIGHT + 300);
 //		this.setMaxHeight(UIComponent.USER_MAX_SCREEN_HEIGHT + 300);
 	}
-	
+
 	public void setHeader(GraphicsContext gc) {
 		BorderPane borderPane = new BorderPane();
-		
-		//set width
+
+		// set width
 		borderPane.setPrefWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
-		
-		
-		
+
 		ImageView imageView = UIComponent.getImageView("img/logo_real.png", 100, true);
-		
+
 		borderPane.setLeft(imageView);
-		
+
 		HBox header = new HBox();
-		
+
 		header.setAlignment(Pos.CENTER);
-		
-		
+
 		// not yet add EventHandler!!!!!!!!!!!
 		Text home, purchases, aboutUs;
 		ImageView userImageView;
@@ -158,35 +158,36 @@ public class MainPage extends AnchorPane {
 		aboutUs.setOnMouseClicked((e) -> GoTo.goToAboutUsPage());
 		header.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
 		header.setSpacing(20);
-		
+
 		borderPane.setRight(header);
 //		BorderPane.setAlignment(header, Pos.CENTER);
-		//**header
+		// **header
 		this.getChildren().add(borderPane);
 		MainPage.setLeftAnchor(borderPane, 0.0);
 		MainPage.setRightAnchor(borderPane, 50.0);
-		
+
 		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, UIComponent.USER_MAX_SCREEN_WIDTH, 100);
-		UIComponent.drawLine(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, 100, gc);
-		//**header
+//		UIComponent.drawLine(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, 100, gc);
+		// **header
 	}
-	
+
+//	@Override
 	public void setMiddle(GraphicsContext gc) {
-		//**middle
+		// **middle
 		gc.setFill(Color.LIGHTBLUE);
-		gc.fillRect(0,  100, UIComponent.USER_MAX_SCREEN_WIDTH, 400);
+		gc.fillRect(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, 400);
 		gc.setFill(Color.web("#3c9cf0"));
 		gc.fillRoundRect(200, 150, UIComponent.USER_MAX_SCREEN_WIDTH - 2 * 200, 300, 30, 30);
 		gc.setFill(Color.WHITE);
 		gc.fillRoundRect(200, 190, UIComponent.USER_MAX_SCREEN_WIDTH - 2 * 200, 260, 30, 30);
-		
+
 		Text head = UIComponent.getText("One-Way / Round-Trip", Font.font("Arial", FontWeight.BOLD, 20));
 		head.setFill(Color.WHITE);
 		this.getChildren().add(head);
 		MainPage.setTopAnchor(head, 160.0);
 		MainPage.setLeftAnchor(head, 210.0);
-		
+
 		ImageView depart, target, date1, date2, twoWay, people, classes;
 		MainPage.setTopLeftAnchor(depart = UIComponent.getImageView("img/depart.png", 50, true), 230.0, 200.0);
 		MainPage.setTopLeftAnchor(target = UIComponent.getImageView("img/target.png", 50, true), 580.0, 200.0);
@@ -195,9 +196,9 @@ public class MainPage extends AnchorPane {
 		MainPage.setTopLeftAnchor(date2 = UIComponent.getImageView("img/date.png", 50, true), 580.0, 355.0);
 		MainPage.setTopLeftAnchor(classes = UIComponent.getImageView("img/classes.png", 50, true), 930.0, 315.0);
 		MainPage.setTopLeftAnchor(twoWay = UIComponent.getImageView("img/two_way.png", 50, true), 520.0, 260.0);
-		
+
 		this.getChildren().addAll(depart, target, people, date1, date2, classes, twoWay);
-		
+
 		Label departLabel, targetLabel, dateLabel1, dateLabel2, peopleLabel, classLabel;
 		MainPage.setTopLeftAnchor(departLabel = UIComponent.getLabel("\u00B7 From", 16), 300.0, 215.0);
 		MainPage.setTopLeftAnchor(targetLabel = UIComponent.getLabel("\u00B7 To", 16), 650.0, 215.0);
@@ -206,23 +207,23 @@ public class MainPage extends AnchorPane {
 		MainPage.setTopLeftAnchor(dateLabel2 = UIComponent.getLabel("\u00B7 Return date", 16), 580.0, 330.0);
 		MainPage.setTopLeftAnchor(classLabel = UIComponent.getLabel("\u00B7 Class", 16), 1000.0, 330.0);
 		this.getChildren().addAll(departLabel, targetLabel, peopleLabel, dateLabel1, dateLabel2, classLabel);
-		Label[] arr = {departLabel, targetLabel, peopleLabel, dateLabel1, dateLabel2, classLabel};
+		Label[] arr = { departLabel, targetLabel, peopleLabel, dateLabel1, dateLabel2, classLabel };
 		setFont(arr, Font.font("Arial", FontWeight.BOLD, 16));
-		
-		//Search
+
+		// Search
 		departField = UIComponent.getTextField("", 280, 30);
 		departField.setPromptText("Select your departure");
 		MainPage.setTopLeftAnchor(departField, 230, 270);
 		this.getChildren().add(departField);
-		
+
 		departField.setOnKeyPressed((e) -> {
-			if(e.getCode() == KeyCode.ENTER) {
-				if(departSearchBar != null) {
+			if (e.getCode() == KeyCode.ENTER) {
+				if (departSearchBar != null) {
 					this.getChildren().remove(departSearchBar);
 					departSearchBar = null;
 				}
-				VBox departSearchPage = new SearchPane(departField.getText());
-				if(departSearchPage.getChildren().size() == 0) {
+				VBox departSearchPage = new SearchPane(departField.getText() + " 1");
+				if (departSearchPage.getChildren().size() == 0) {
 					return;
 				}
 				departSearchBar = new ScrollPane(departSearchPage);
@@ -236,28 +237,28 @@ public class MainPage extends AnchorPane {
 		ImageView cancel;
 		MainPage.setTopLeftAnchor(cancel = UIComponent.getImageView("img/cancel.png", 30, true), 480.0, 270.0);
 		this.getChildren().add(cancel);
-		
+
 		cancel.setOnMouseClicked((e) -> {
-			if(departSearchBar != null) {
+			if (departSearchBar != null) {
 				this.getChildren().remove(departSearchBar);
 				departSearchBar = null;
-				departField.setText("");
 			}
+			departField.setText("");
 		});
-		
+
 		destinyField = UIComponent.getTextField("", 280, 30);
 		destinyField.setPromptText("Select your destiny");
 		MainPage.setTopLeftAnchor(destinyField, 580, 270);
 		this.getChildren().add(destinyField);
-		
+
 		destinyField.setOnKeyPressed((e) -> {
-			if(e.getCode() == KeyCode.ENTER) {
-				if(destinySearchBar != null) {
+			if (e.getCode() == KeyCode.ENTER) {
+				if (destinySearchBar != null) {
 					this.getChildren().remove(destinySearchBar);
 					destinySearchBar = null;
 				}
-				VBox destinySearchPage = new SearchPane(destinyField.getText());
-				if(destinySearchPage.getChildren().size() == 0) {
+				VBox destinySearchPage = new SearchPane(destinyField.getText() + " 2");
+				if (destinySearchPage.getChildren().size() == 0) {
 					return;
 				}
 				destinySearchBar = new ScrollPane(destinySearchPage);
@@ -270,40 +271,40 @@ public class MainPage extends AnchorPane {
 		ImageView cancel2;
 		MainPage.setTopLeftAnchor(cancel2 = UIComponent.getImageView("img/cancel.png", 30, true), 830.0, 270.0);
 		this.getChildren().add(cancel2);
-		
+
 		cancel2.setOnMouseClicked((e) -> {
-			if(destinySearchBar != null) {
+			if (destinySearchBar != null) {
 				this.getChildren().remove(destinySearchBar);
 				destinySearchBar = null;
-				destinyField.setText("");
 			}
+			destinyField.setText("");
 		});
-		
-		//DatePicker
+
+		// DatePicker
 		departDatePicker = UIComponent.getDatePicker();
 		departDatePicker.setPrefWidth(210);
 		this.getChildren().add(departDatePicker);
 		MainPage.setTopLeftAnchor(departDatePicker, 300, 365);
-		
+
 		destinyDatePicker = UIComponent.getDatePicker();
 		destinyDatePicker.setPrefWidth(210);
 		destinyDatePicker.setDisable(true);
 		this.getChildren().add(destinyDatePicker);
 		MainPage.setTopLeftAnchor(destinyDatePicker, 648, 365);
-		
-		//CheckBox
+
+		// CheckBox
 		checkBox = UIComponent.getCheckBox();
 		this.getChildren().add(checkBox);
 		MainPage.setTopLeftAnchor(checkBox, 685, 330);
 		checkBox.setOnMouseClicked((e) -> {
-			if(checkBox.isSelected()) {
+			if (checkBox.isSelected()) {
 				destinyDatePicker.setDisable(false);
-			}else {
+			} else {
 				destinyDatePicker.setDisable(true);
 			}
 		});
-		
-		//Number of passengers
+
+		// Number of passengers
 		adultField = UIComponent.getTextField("", 93, 30);
 		adultField.setPromptText("# Adult");
 		childrenField = UIComponent.getTextField("", 93, 30);
@@ -314,7 +315,7 @@ public class MainPage extends AnchorPane {
 		MainPage.setTopLeftAnchor(adultField, 1000, 270);
 		MainPage.setTopLeftAnchor(childrenField, 1100, 270);
 		MainPage.setTopLeftAnchor(toddlerField, 1200, 270);
-		
+
 		Label adultLabel = UIComponent.getLabel("Adult", 14);
 		Label childrenLabel = UIComponent.getLabel("Children", 14);
 		Label toddlerLabel = UIComponent.getLabel("Toddler", 14);
@@ -322,48 +323,57 @@ public class MainPage extends AnchorPane {
 		MainPage.setTopLeftAnchor(adultLabel, 1027, 250);
 		MainPage.setTopLeftAnchor(childrenLabel, 1121, 250);
 		MainPage.setTopLeftAnchor(toddlerLabel, 1223, 250);
-		
-		//ChoiceBox
+
+		// ChoiceBox
 		choiceBox = UIComponent.getChoiceBox();
 		choiceBox.setPrefWidth(100);
 		this.getChildren().add(choiceBox);
 		MainPage.setTopLeftAnchor(choiceBox, 1000.0, 365.0);
-		choiceBox.getItems().addAll(IOReader.getStringsFromTextFile("res/text/classes.txt"));
-		
+		choiceBox.getItems().addAll(IOReaderWriter.getStringsFromTextFile("res/text/classes.txt"));
+
 		Button searchBtn, resetBtn;
 		this.getChildren().add(searchBtn = UIComponent.getButton("Search"));
 		this.getChildren().add(resetBtn = UIComponent.getButton("Reset"));
 		MainPage.setTopLeftAnchor(searchBtn, 1245, 410);
 		MainPage.setTopLeftAnchor(resetBtn, 1191, 410);
-		
+
 		resetBtn.setOnMouseClicked((e) -> {
 			reset();
 		});
-		
-		//Exception
+
+		// Exception
 		searchBtn.setOnMouseClicked((e) -> {
 			try {
-				if(FlightData.isCorrectData(this.departField.getText(), this.destinyField.getText(), this.departDatePicker.getValue(), this.destinyDatePicker.getValue(), Integer.parseInt(adultField.getText())
-				, Integer.parseInt(childrenField.getText()), Integer.parseInt(toddlerField.getText()), checkBox.isSelected(), choiceBox.getValue())){	
-					GoTo.goToFlightAvailablePage();
-				}else if(departField.getText() == null || departField.getText() == null || departDatePicker.getValue() == null || (checkBox.isSelected() || destinyDatePicker.getValue() == null)){
+				if (RequestData.isCorrectData(this.departField.getText(), this.destinyField.getText(),
+						this.departDatePicker.getValue(), this.destinyDatePicker.getValue(),
+						Integer.parseInt(adultField.getText()), Integer.parseInt(childrenField.getText()),
+						Integer.parseInt(toddlerField.getText()), checkBox.isSelected(), choiceBox.getValue())) {
+					GoTo.goToFlightAvailablePage(new RequestData(departField.getText(), destinyField.getText(),
+							departDatePicker.getValue(), destinyDatePicker.getValue(),
+							Integer.parseInt(adultField.getText()), Integer.parseInt(childrenField.getText()),
+							Integer.parseInt(toddlerField.getText()), checkBox.isSelected(), choiceBox.getValue()));
+				} else if (departField.getText() == null || departField.getText() == null
+						|| departDatePicker.getValue() == null
+						|| (checkBox.isSelected() || destinyDatePicker.getValue() == null)) {
 					throw new PartiallyFillFormException();
-				}else {
+				} else {
 					throw new IncorrectFillFormException("");
 				}
-			}catch(IncorrectFillFormException e1) {
+			} catch (IncorrectFillFormException e1) {
+				System.out.println("1");
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setHeaderText(null);
 				alert.setContentText("Please fill the informations in its \"CORRECT\" form");
 				alert.getButtonTypes().setAll(ButtonType.OK);
 				alert.showAndWait();
-			}catch(PartiallyFillFormException e2) {
+			} catch (PartiallyFillFormException e2) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setHeaderText(null);
 				alert.setContentText("Please fill all the \"IMPORTANT\" information");
 				alert.getButtonTypes().setAll(ButtonType.OK);
 				alert.showAndWait();
-			}catch(Exception e3) {
+			} catch (Exception e3) {
+				System.out.println("3");
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setHeaderText(null);
 				alert.setContentText("Please fill the informations in its \"CORRECT\" form");
@@ -371,10 +381,9 @@ public class MainPage extends AnchorPane {
 				alert.showAndWait();
 			}
 		});
-		
+
 	}
-	
-	
+
 	public static void reset() {
 		departField.setText("");
 		destinyField.setText("");
@@ -386,27 +395,20 @@ public class MainPage extends AnchorPane {
 		toddlerField.setText("");
 		checkBox.setSelected(false);
 		choiceBox.setValue(null);
-		if(departSearchBar != null) {
+		if (departSearchBar != null) {
 			MainPage.getInstance().getChildren().remove(departSearchBar);
 			departSearchBar = null;
 		}
-		if(destinySearchBar != null) {
+		if (destinySearchBar != null) {
 			MainPage.getInstance().getChildren().remove(destinySearchBar);
 			destinySearchBar = null;
 		}
 	}
-	
+
 	public static MainPage getInstance() {
-		if(mainPageInstance == null) {
+		if (mainPageInstance == null) {
 			mainPageInstance = new MainPage();
 		}
 		return mainPageInstance;
-	}
-	
-	public static Canvas getCanvas() {
-		if(canvas == null) {
-			canvas = new Canvas(UIComponent.USER_MAX_SCREEN_WIDTH, UIComponent.USER_MAX_SCREEN_HEIGHT);
-		}
-		return canvas;
 	}
 }
