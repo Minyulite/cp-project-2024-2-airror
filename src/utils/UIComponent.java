@@ -62,7 +62,6 @@ public class UIComponent {
 	}
 	
 	public static void drawLine(double x1, double y1, double x2, double y2, GraphicsContext gc) {
-		gc.setLineWidth(4.0);
 		gc.setFill(Color.BLACK);
 		gc.strokeLine(x1, y1, x2, y2);
 		return;

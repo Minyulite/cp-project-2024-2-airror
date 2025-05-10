@@ -46,20 +46,6 @@ public class MyApplication extends Application {
 		setStageStyle(stage);
 
 		stage.show();
-		
-		
-//		new Thread(() -> {
-//			while(true) {
-//				System.out.println(stage.getWidth() + " " + stage.getHeight());
-////				System.out.println(scene.getWidth() + " " + scene.getHeight());
-//				try {
-//					Thread.sleep(2000);
-//				} catch(InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}).start();
-		
 	}
 	
 	public static void setStageStyle(Stage stage) {

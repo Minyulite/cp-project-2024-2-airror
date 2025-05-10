@@ -7,6 +7,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.AnchorPane;
 import logics.RequestData;
+import pages.AboutUsPage;
 import pages.FlightAvailablePage;
 import pages.MainPage;
 import pages.PurchasePage;
@@ -18,10 +19,8 @@ public class GoTo {
 
 		root.setHbarPolicy(ScrollBarPolicy.NEVER);
 		if (MyApplication.getScene() == null) {
-//			MyApplication.scene = new Scene(root, 800, 800);
 			MyApplication.setScene(new Scene(root, 800, 800));
 		} else {
-//			MyApplication.scene.setRoot(root);
 			MyApplication.getScene().setRoot(root);
 		}
 		MyApplication.getListOfRoots().clear();
@@ -29,16 +28,12 @@ public class GoTo {
 	}
 
 	public static void goToFlightAvailablePage(RequestData flightData) {
-//		MainPage.adsThread.interrupt();
 		AnchorPane root = new FlightAvailablePage(flightData);
 
-//		root.setHbarPolicy(ScrollBarPolicy.NEVER);
 		if (MyApplication.getScene() == null) {
-//			MyApplication.scene = new Scene(root, 800, 800);
 			MyApplication.setScene(new Scene(root, 800, 800));
 
 		} else {
-//			MyApplication.scene.setRoot(root);
 			MyApplication.getScene().setRoot(root);
 		}
 		MyApplication.getListOfRoots().add(root);
@@ -55,7 +50,13 @@ public class GoTo {
 	}
 
 	public static void goToAboutUsPage() {
+		AnchorPane root = AboutUsPage.getInstance();
 		
+		if(MyApplication.getScene() == null) {
+			MyApplication.setScene(new Scene(root, 800, 800));
+		} else {
+			MyApplication.getScene().setRoot(root);
+		}
 	}
 	
 	public static void back() {

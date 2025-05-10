@@ -1,4 +1,3 @@
-BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Chicken airline,18:00,19:15,2000.0,07/05/2025
 DMK,Don Mueang International Airport,HKG,Hong Kong International Airport,Penguin airline,09:00,13:00,4200.0,07/05/2025
 CNX,Chiang Mai International Airport,ICN,Incheon International Airport,Goat airline,23:50,07:15,6800.0,07/05/2025
 SIN,Changi Airport,KUL,Kuala Lumpur International Airport,Giraffe airline,12:30,13:30,1500.0,07/05/2025
@@ -18,7 +17,6 @@ CNX,Chiang Mai International Airport,DMK,Don Mueang International Airport,Giraff
 PEK,Beijing Capital International Airport,ICN,Incheon International Airport,Banana airline,11:45,14:15,4700.0,08/05/2025
 NRT,Narita International Airport,TPE,Taoyuan International Airport,Goat airline,09:10,12:00,5100.0,08/05/2025
 HAN,Noi Bai International Airport,KUL,Kuala Lumpur International Airport,Chicken airline,13:20,16:30,3400.0,08/05/2025
-BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Goat airline,11:15,21:13,5536.0,07/05/2025
 DMK,Don Mueang International Airport,HKG,Hong Kong International Airport,Giraffe airline,01:30,11:03,1740.0,07/05/2025
 HKG,Hong Kong International Airport,DMK,Don Mueang International Airport,Banana airline,06:15,08:49,2962.0,07/05/2025
 CNX,Chiang Mai International Airport,ICN,Incheon International Airport,Giraffe airline,15:15,20:47,6214.0,07/05/2025
@@ -57,5 +55,7 @@ NRT,Narita International Airport,TPE,Taoyuan International Airport,Penguin airli
 TPE,Taoyuan International Airport,NRT,Narita International Airport,Goat airline,16:45,17:49,3118.0,08/05/2025
 HAN,Noi Bai International Airport,KUL,Kuala Lumpur International Airport,Giraffe airline,06:45,11:23,4694.0,08/05/2025
 KUL,Kuala Lumpur International Airport,HAN,Noi Bai International Airport,Chicken airline,02:30,05:11,3990.0,08/05/2025
-BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Banana airline,05:00,06:15,3145.0,07/05/2025
 CNX,Chiang Mai International Airport,BKK,Suvarnabhumi Airport,Chicken airline,21:00,04:53,7123.0,07/05/2025
+BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Penguin airline,05:00,06:15,2000.0,07/05/2025
+BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Chicken airline,18:00,19:15,2000.0,07/05/2025
+BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Goat airline,11:15,21:13,5536.0,07/05/2025
