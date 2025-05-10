@@ -1,1 +1,2 @@
-BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Banana airline,05:00,06:15,3145.0,07/05/2025,Economy Class,2,2,2
+BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Chicken airline,18:00,19:15,2000.0,07/05/2025,Economy Class,2,2,2
+CNX,Chiang Mai International Airport,BKK,Suvarnabhumi Airport,Chicken airline,21:00,04:53,7123.0,07/05/2025,Economy Class,2,2,2

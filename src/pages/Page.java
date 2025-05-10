@@ -11,8 +11,6 @@ public abstract class Page extends AnchorPane {
 	
 	public abstract void setHeader(GraphicsContext gc);
 
-//	public abstract void setMiddle(GraphicsContext gc);
-
 	public abstract void setStyle();
 
 	public static void setTopLeftAnchor(Node node, double left, double top) {

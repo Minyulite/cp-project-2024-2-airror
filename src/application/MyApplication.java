@@ -42,7 +42,7 @@ public class MyApplication extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		GoTo.goToMainPage();
+		GoTo.goToLoginPage();
 		setStageStyle(stage);
 
 		stage.show();
@@ -55,6 +55,7 @@ public class MyApplication extends Application {
 		stage.getIcons().add(UIComponent.getImage("img/logo_real.png"));
 
 		stage.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
+		stage.setMaxHeight(UIComponent.USER_MAX_SCREEN_HEIGHT);
 		
 		stage.setOnCloseRequest((e) -> {
 			Alert alert = new Alert(AlertType.WARNING);

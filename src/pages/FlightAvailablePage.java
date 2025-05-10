@@ -86,8 +86,16 @@ public class FlightAvailablePage extends Page {
 		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
 		header.getChildren().add(aboutUs = UIComponent.getText("About us", 20));
 		aboutUs.setOnMouseClicked((e) -> GoTo.goToAboutUsPage());
-		header.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
-		header.setSpacing(20);
+
+		HBox userProfile = new HBox();
+		
+		userProfile.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
+		userProfile.getChildren().add(UIComponent.getText(LoginPage.loginUsername, 20));
+		userProfile.setSpacing(10);
+		userProfile.setAlignment(Pos.CENTER);
+		
+		header.getChildren().add(userProfile);
+		header.setSpacing(30);
 
 		borderPane.setRight(header);
 //		BorderPane.setAlignment(header, Pos.CENTER);
@@ -109,7 +117,7 @@ public class FlightAvailablePage extends Page {
 		gc.fillRect(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, UIComponent.USER_MAX_SCREEN_HEIGHT - 100);
 
 		UIComponent.drawLine(0, 260, UIComponent.USER_MAX_SCREEN_WIDTH, 260, gc);
-		Map<String, String> townName = IOReaderWriter.getTownName("res/text/town.txt");
+		Map<String, String> townName = IOReaderWriter.getMap("res/text/town.txt");
 		String[] departSp = requestData.getDepartField().split(" - ");
 		String[] destinySp = requestData.getDestinyField().split(" - ");
 		Label departLabel = UIComponent.getLabel(departSp[0] + "(" + townName.get(departSp[0]) + ")", 20);

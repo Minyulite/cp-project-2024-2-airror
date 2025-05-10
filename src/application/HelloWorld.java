@@ -23,13 +23,15 @@ import javafx.stage.Stage;
 import logics.FlightData;
 import panes.SearchFlightAvailablePane;
 import utils.IOReaderWriter;
+import utils.UIComponent;
 
 public class HelloWorld extends Application {
 	
 	public static Scene scene = null;
 	
 	public static void main(String[] args) throws InterruptedException {
-		IOReaderWriter.writeListOfFlightData(SearchFlightAvailablePane.flightsList, "res/text/pending.txt");
+		System.out.println(UIComponent.USER_MAX_SCREEN_HEIGHT + " " + UIComponent.USER_MAX_SCREEN_WIDTH);
+//		IOReaderWriter.writeListOfFlightData(SearchFlightAvailablePane.flightsList, "res/text/pending.txt");
 //		String date = "08/09/2005";
 //		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 //		LocalDate ld = LocalDate.parse(date, dtf);

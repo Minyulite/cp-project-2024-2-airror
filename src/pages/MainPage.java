@@ -158,8 +158,16 @@ public class MainPage extends Page {
 		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
 		header.getChildren().add(aboutUs = UIComponent.getText("About us", 20));
 		aboutUs.setOnMouseClicked((e) -> GoTo.goToAboutUsPage());
-		header.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
-		header.setSpacing(20);
+		
+		HBox userProfile = new HBox();
+		
+		userProfile.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
+		userProfile.getChildren().add(UIComponent.getText(LoginPage.loginUsername, 20));
+		userProfile.setSpacing(10);
+		userProfile.setAlignment(Pos.CENTER);
+		
+		header.getChildren().add(userProfile);
+		header.setSpacing(30);
 
 		borderPane.setRight(header);
 //		BorderPane.setAlignment(header, Pos.CENTER);

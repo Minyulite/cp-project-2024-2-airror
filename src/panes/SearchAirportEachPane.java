@@ -18,7 +18,6 @@ public class SearchAirportEachPane extends BorderPane {
 		this.setName(name);
 		this.setPrefWidth(prefWidth);
 		Label label = UIComponent.getLabel(name, 16);
-//		this.setCenter(label);
 		this.setLeft(label);
 	}
 

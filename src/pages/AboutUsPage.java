@@ -29,6 +29,54 @@ public class AboutUsPage extends Page {
 		
 		setMiddle(gc);
 	}
+
+	@Override
+	public void setHeader(GraphicsContext gc) {
+		BorderPane borderPane = new BorderPane();
+
+		// set width
+		borderPane.setPrefWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
+
+		ImageView imageView = UIComponent.getImageView("img/logo_real.png", 100, true);
+
+		borderPane.setLeft(imageView);
+
+		HBox header = new HBox();
+
+		header.setAlignment(Pos.CENTER);
+
+		// not yet add EventHandler!!!!!!!!!!!
+		Text home, purchases, aboutUs;
+		ImageView userImageView;
+		header.getChildren().add(home = UIComponent.getText("Home", 20));
+		home.setOnMouseClicked((e) -> GoTo.goToMainPage());
+		header.getChildren().add(purchases = UIComponent.getText("Purchases", 20));
+		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
+		header.getChildren().add(aboutUs = UIComponent.getText("About us", 20));
+		aboutUs.setOnMouseClicked((e) -> GoTo.goToAboutUsPage());
+		
+		HBox userProfile = new HBox();
+		
+		userProfile.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
+		userProfile.getChildren().add(UIComponent.getText(LoginPage.loginUsername, 20));
+		userProfile.setSpacing(10);
+		userProfile.setAlignment(Pos.CENTER);
+		
+		header.getChildren().add(userProfile);
+		header.setSpacing(30);
+
+		borderPane.setRight(header);
+//		BorderPane.setAlignment(header, Pos.CENTER);
+		// **header
+		this.getChildren().add(borderPane);
+		MainPage.setLeftAnchor(borderPane, 0.0);
+		MainPage.setRightAnchor(borderPane, 50.0);
+
+		gc.setFill(Color.web("#b6e8f2"));
+		gc.fillRect(0, 0, UIComponent.USER_MAX_SCREEN_WIDTH, 100);
+//		UIComponent.drawLine(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, 100, gc);
+		// **header
+	}
 	
 	public void setMiddle(GraphicsContext gc) {
 		gc.setFill(Color.BLACK);
@@ -81,47 +129,7 @@ public class AboutUsPage extends Page {
 		AboutUsPage.setTopLeftAnchor(description, 760, 620);
 
 	}
-
-	@Override
-	public void setHeader(GraphicsContext gc) {
-		BorderPane borderPane = new BorderPane();
-
-		// set width
-		borderPane.setPrefWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
-
-		ImageView imageView = UIComponent.getImageView("img/logo_real.png", 100, true);
-
-		borderPane.setLeft(imageView);
-
-		HBox header = new HBox();
-
-		header.setAlignment(Pos.CENTER);
-
-		// not yet add EventHandler!!!!!!!!!!!
-		Text home, purchases, aboutUs;
-		ImageView userImageView;
-		header.getChildren().add(home = UIComponent.getText("Home", 20));
-		home.setOnMouseClicked((e) -> GoTo.goToMainPage());
-		header.getChildren().add(purchases = UIComponent.getText("Purchases", 20));
-		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
-		header.getChildren().add(aboutUs = UIComponent.getText("About us", 20));
-		aboutUs.setOnMouseClicked((e) -> GoTo.goToAboutUsPage());
-		header.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
-		header.setSpacing(20);
-
-		borderPane.setRight(header);
-//		BorderPane.setAlignment(header, Pos.CENTER);
-		// **header
-		this.getChildren().add(borderPane);
-		MainPage.setLeftAnchor(borderPane, 0.0);
-		MainPage.setRightAnchor(borderPane, 50.0);
-
-		gc.setFill(Color.web("#b6e8f2"));
-		gc.fillRect(0, 0, UIComponent.USER_MAX_SCREEN_WIDTH, 100);
-//		UIComponent.drawLine(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, 100, gc);
-		// **header
-	}
-
+	
 	@Override
 	public void setStyle() {
 		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);

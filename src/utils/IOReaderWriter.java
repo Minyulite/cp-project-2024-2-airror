@@ -150,13 +150,13 @@ public class IOReaderWriter {
 		}
 	}
 
-	public static Map<String, String> getTownName(String path) {
-		Map<String, String> townName = new HashMap<String, String>();
+	public static Map<String, String> getMap(String path) {
+		Map<String, String> mp = new HashMap<String, String>();
 		try {
 			sc = new Scanner(new File(path));
 			while (sc.hasNextLine()) {
 				String[] splitted = sc.nextLine().split(",");
-				townName.put(splitted[0].strip(), splitted[1].strip());
+				mp.put(splitted[0].strip(), splitted[1].strip());
 			}
 			sc.close();
 		} catch (FileNotFoundException e) {
@@ -165,6 +165,6 @@ public class IOReaderWriter {
 			alert.setContentText("FILE NOT FOUND");
 			alert.showAndWait();
 		}
-		return townName;
+		return mp;
 	}
 }

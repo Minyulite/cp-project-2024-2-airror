@@ -18,8 +18,11 @@ import javafx.stage.Screen;
 
 public class UIComponent {
 
-	public static final double USER_MAX_SCREEN_WIDTH = Screen.getPrimary().getBounds().getWidth(); // These return user screen's width and height
-	public static final double USER_MAX_SCREEN_HEIGHT = Screen.getPrimary().getBounds().getHeight();
+//	public static final double USER_MAX_SCREEN_WIDTH = Screen.getPrimary().getBounds().getWidth(); // These return user screen's width and height
+//	public static final double USER_MAX_SCREEN_HEIGHT = Screen.getPrimary().getBounds().getHeight();
+
+	public static final double USER_MAX_SCREEN_WIDTH = 1536.0;
+	public static final double USER_MAX_SCREEN_HEIGHT = 864.0;
 	
 	public static Label getLabel(String name, int fontSize) {
 		Label label =  new Label(name);
