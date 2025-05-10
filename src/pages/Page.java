@@ -6,7 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.AnchorPane;
 import utils.UIComponent;
 
-public abstract class Pages extends AnchorPane {
+public abstract class Page extends AnchorPane {
 	public Canvas canvas = null;
 	
 	public abstract void setHeader(GraphicsContext gc);
@@ -16,8 +16,8 @@ public abstract class Pages extends AnchorPane {
 	public abstract void setStyle();
 
 	public static void setTopLeftAnchor(Node node, double left, double top) {
-		MainPage.setTopAnchor(node, top);
-		MainPage.setLeftAnchor(node, left);
+		AnchorPane.setTopAnchor(node, top);
+		AnchorPane.setLeftAnchor(node, left);
 	}
 
 	public Canvas getCanvas() {

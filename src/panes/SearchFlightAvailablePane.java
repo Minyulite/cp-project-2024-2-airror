@@ -21,11 +21,12 @@ import utils.IOReaderWriter;
 import utils.UIComponent;
 
 public class SearchFlightAvailablePane extends VBox implements Searchable {
-	public static ArrayList<FlightData> flightsList = IOReaderWriter.getListOfFlightData("res/text/fly_list_extended.txt");
+	public static ArrayList<FlightData> flightsList;
 	public ArrayList<FlightData> flightsSelected = new ArrayList<>();
 	
 	public SearchFlightAvailablePane(RequestData requestData) {
 		super();
+		flightsList = IOReaderWriter.getListOfFlightData("res/text/fly_list_extended.txt");
 		this.addSearchEachPane(requestData);
 		this.setBackground(new Background(new BackgroundFill(Color.web("#83cff7"), CornerRadii.EMPTY, Insets.EMPTY)));
 		this.setPrefWidth(UIComponent.USER_MAX_SCREEN_WIDTH - 300);

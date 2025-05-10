@@ -55,6 +55,8 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 		nameLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 		departTimeLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
 		arrivalTimeLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
+//		priceLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+//		perPersonLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
 		departAbbr.setFont(Font.font("Verdana", FontWeight.SEMI_BOLD, 16));
 		destinyAbbr.setFont(Font.font("Verdana", FontWeight.SEMI_BOLD, 16));
 		selectBtn.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
@@ -78,8 +80,8 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 			ArrayList<PurchaseData> pendingList = IOReaderWriter.getListOfPurchaseData("res/text/pending.txt");
 			pendingList.add(new PurchaseData(flightData, requestData.getClasses(), requestData.getAdultField(), 
 					requestData.getChildrenField(), requestData.getToddlerField()));
+			IOReaderWriter.writeListOfPurchaseData(pendingList, "res/text/pending.txt");
 			if(requestData.isReturn()) {
-				IOReaderWriter.writeListOfPurchaseData(pendingList, "res/text/pending.txt");
 				
 				RequestData returnRequestData = new RequestData(requestData);
 				
@@ -99,14 +101,30 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 				alert.getButtonTypes().setAll(ButtonType.NO, ButtonType.YES);
 				Optional<ButtonType> response = alert.showAndWait();
 				if(response.isPresent() && response.get() == ButtonType.YES) {
+					// add new purchases data to text file;
 					ArrayList<PurchaseData> alreadyPurchased = IOReaderWriter.getListOfPurchaseData("res/text/purchases.txt");
 					for(PurchaseData pd : pendingList) {
 						alreadyPurchased.add(pd);
 					}
 					IOReaderWriter.writeListOfPurchaseData(alreadyPurchased, "res/text/purchases.txt");
-					IOReaderWriter.clearTextFile("res/text/pending.txt");
-					GoTo.goToMainPage();
 					
+					// delete selected flights data from text file;
+					/*** we are going to use IOReaderWriter.getListOfFlighData on Text file of PurchaseData.
+					 Even though it seems not right, but we can use it***/
+					ArrayList<FlightData> toDelete = IOReaderWriter.getListOfFlightData("res/text/pending.txt");
+					for(FlightData delete : toDelete) {
+						for(FlightData fd : SearchFlightAvailablePane.flightsList) {
+							if(delete.toString().equals(fd.toString())) {
+								SearchFlightAvailablePane.flightsList.remove(fd);
+								break;
+							}
+						}
+					}
+					
+					IOReaderWriter.writeListOfFlightData(SearchFlightAvailablePane.flightsList, "res/text/fly_list_extended.txt");
+					IOReaderWriter.clearTextFile("res/text/pending.txt");
+					MainPage.reset();
+					GoTo.goToMainPage();
 				}else {
 					event.consume();
 				}

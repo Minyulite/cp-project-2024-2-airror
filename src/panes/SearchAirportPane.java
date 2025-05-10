@@ -19,12 +19,12 @@ import utils.IOReaderWriter;
 import interfaces.Searchable;
 import java.util.ArrayList;
 
-public class SearchPane extends VBox implements Searchable {
-	public static SearchPane searchPageInstance = null;
+public class SearchAirportPane extends VBox implements Searchable {
+	public static SearchAirportPane searchPageInstance = null;
 	public static ArrayList<String> airports = IOReaderWriter
 			.getStringsFromTextFile("res/text/Asian_Airports_Abbreviated.txt");
 
-	public SearchPane(String condition) {
+	public SearchAirportPane(String condition) {
 //		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 		String[] splitted = condition.strip().split(" ");
 		addSearchEachPane(splitted);
@@ -37,7 +37,7 @@ public class SearchPane extends VBox implements Searchable {
 		for (String airport : airports) {
 			if (condition.length == 1 || airport.toLowerCase().contains(condition[0].toLowerCase())) {
 				// not yet add EventListener!!!!!
-				SearchEachPane searchEachPane = new SearchEachPane(airport, 280);
+				SearchAirportEachPane searchEachPane = new SearchAirportEachPane(airport, 280);
 				searchEachPane.setOnMouseClicked((event) -> {
 					if(condition[condition.length - 1].equals("1")) {
 						MainPage.departField.setText(airport);

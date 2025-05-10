@@ -37,7 +37,7 @@ import utils.GoTo;
 import utils.IOReaderWriter;
 import utils.UIComponent;
 
-public class FlightAvailablePage extends Pages {
+public class FlightAvailablePage extends Page {
 
 	private ArrayList<String> airlinesCondition = new ArrayList<>();
 	private RequestData requestData;
@@ -333,6 +333,15 @@ public class FlightAvailablePage extends Pages {
 			Platform.runLater(() -> {
 				searchPane.getChildren().clear();
 			});
+			
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+//			System.out.println("BEFORE : " + searchPane.getChildren().size());
 
 			for (int i = 0; i < searchPane.flightsSelected.size(); ++i) {
 				if (airlinesCondition.contains(searchPane.flightsSelected.get(i).getAirlineName())) {
@@ -350,6 +359,15 @@ public class FlightAvailablePage extends Pages {
 						e.printStackTrace();
 					}
 				}
+			}
+			
+			if(searchPane.getChildren().size() == 0) {
+				Platform.runLater(() -> {
+					searchPane.setAlignment(Pos.CENTER);
+					Label label = UIComponent.getLabel("SORRY, THERE AREN'T ANY AVAILABLE FLIGHTS", 40);
+					label.setFont(Font.font("verdana", FontWeight.BOLD, 40));
+					searchPane.getChildren().add(label);					
+				});
 			}
 		}).start();
 	}
@@ -380,6 +398,14 @@ public class FlightAvailablePage extends Pages {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+				}
+				if(searchPane.getChildren().size() == 0) {
+					Platform.runLater(() -> {
+						searchPane.setAlignment(Pos.CENTER);
+						Label label = UIComponent.getLabel("SORRY, THERE AREN'T ANY AVAILABLE FLIGHTS", 40);
+						label.setFont(Font.font("verdana", FontWeight.BOLD, 40));
+						searchPane.getChildren().add(label);					
+					});
 				}
 			} else {
 				airlinesCondition.remove(condition);

@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import logics.RequestData;
 import pages.FlightAvailablePage;
 import pages.MainPage;
+import pages.PurchasePage;
 
 public class GoTo {
 
@@ -44,11 +45,17 @@ public class GoTo {
 	}
 
 	public static void goToPurchasePage() {
-
+		AnchorPane root = new PurchasePage();
+		
+		if(MyApplication.getScene() == null) {
+			MyApplication.setScene(new Scene(root, 800, 800));
+		} else {
+			MyApplication.getScene().setRoot(root);
+		}
 	}
 
 	public static void goToAboutUsPage() {
-
+		
 	}
 	
 	public static void back() {

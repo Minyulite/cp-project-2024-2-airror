@@ -10,10 +10,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import utils.UIComponent;
 
-public class SearchEachPane extends BorderPane {
+public class SearchAirportEachPane extends BorderPane {
 	private String name;
 	
-	public SearchEachPane(String name, double prefWidth) {
+	public SearchAirportEachPane(String name, double prefWidth) {
 		super();
 		this.setName(name);
 		this.setPrefWidth(prefWidth);
