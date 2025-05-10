@@ -21,20 +21,14 @@ import utils.IOReaderWriter;
 import utils.UIComponent;
 
 public class SearchFlightAvailablePane extends VBox implements Searchable {
-	public static ArrayList<FlightData> flightsList;
+	public static ArrayList<FlightData> flightsList = IOReaderWriter.getListOfFlightData("/text/fly_list_extended.txt");
 	public ArrayList<FlightData> flightsSelected = new ArrayList<>();
 	
 	public SearchFlightAvailablePane(RequestData requestData) {
 		super();
-		flightsList = IOReaderWriter.getListOfFlightData("res/text/fly_list_extended.txt");
 		this.addSearchEachPane(requestData);
 		this.setBackground(new Background(new BackgroundFill(Color.web("#83cff7"), CornerRadii.EMPTY, Insets.EMPTY)));
 		this.setPrefWidth(UIComponent.USER_MAX_SCREEN_WIDTH - 300);
-//		this.setPrefHeight(UIComponent.USER_MAX_SCREEN_HEIGHT - 340);
-//		System.out.println(this.getChildren().size());
-//		this.setPrefHeight(20 + 220 * this.getChildren().size() + 15);
-//		this.setMaxHeight(UIComponent.USER_MAX_SCREEN_HEIGHT);
-//		this.setHAlignment(Pos.CENTER);
 		this.setPadding(new Insets(10, 35, 10, 35));
 		this.setSpacing(10);
 		if(this.getChildren().size() == 0) {
@@ -58,4 +52,22 @@ public class SearchFlightAvailablePane extends VBox implements Searchable {
 			}
 		}
 	}
+
+	public static ArrayList<FlightData> getFlightsList() {
+		return flightsList;
+	}
+
+	public static void setFlightsList(ArrayList<FlightData> flightsList) {
+		SearchFlightAvailablePane.flightsList = flightsList;
+	}
+
+	public ArrayList<FlightData> getFlightsSelected() {
+		return flightsSelected;
+	}
+
+	public void setFlightsSelected(ArrayList<FlightData> flightsSelected) {
+		this.flightsSelected = flightsSelected;
+	}
+	
+	
 }

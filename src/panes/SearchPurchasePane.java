@@ -11,11 +11,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import logics.PurchaseData;
+import pages.PurchasePage;
 import utils.IOReaderWriter;
 import utils.UIComponent;
 
 public class SearchPurchasePane extends VBox implements Searchable {
-	public static ArrayList<PurchaseData> purchasesList;
 	
 	public SearchPurchasePane() {
 		this.setPrefWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
@@ -32,10 +32,8 @@ public class SearchPurchasePane extends VBox implements Searchable {
 	
 	@Override
 	public void addSearchEachPane(Object obj) {
-		purchasesList = IOReaderWriter.getListOfPurchaseData("res/text/purchases.txt");
-		for(int i = 1; i <= purchasesList.size(); ++i) {
-			System.out.println(purchasesList.get(i - 1));
-			this.getChildren().add(new SearchPurchaseEachPane(purchasesList.get(i - 1), i, this));
+		for(int i = 1; i <= PurchasePage.getPurchasesList().size(); ++i) {
+			this.getChildren().add(new SearchPurchaseEachPane(PurchasePage.getPurchasesList().get(i - 1), i, this));
 		}
 	}
 	

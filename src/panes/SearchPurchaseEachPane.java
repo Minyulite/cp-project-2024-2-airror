@@ -24,13 +24,13 @@ public class SearchPurchaseEachPane extends AnchorPane {
 		this.setPurchaseData(purchaseData);
 
 		Label date = UIComponent
-				.getLabel(purchaseData.getDepartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), 16);
-		Label depart = UIComponent.getLabel(purchaseData.getDepartTime(), 16);
+				.getLabel(purchaseData.getFlightData().getDepartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), 16);
+		Label depart = UIComponent.getLabel(purchaseData.getFlightData().getDepartTime(), 16);
 		Label origin = UIComponent
-				.getLabel(purchaseData.getDepartAirportName() + "(" + purchaseData.getDepartAbbr() + ")", 16);
-		Label arrive = UIComponent.getLabel(purchaseData.getArrivalTime(), 16);
+				.getLabel(purchaseData.getFlightData().getDepartAirportName() + "(" + purchaseData.getFlightData().getDepartAbbr() + ")", 16);
+		Label arrive = UIComponent.getLabel(purchaseData.getFlightData().getArrivalTime(), 16);
 		Label destination = UIComponent
-				.getLabel(purchaseData.getDestinyAirportName() + "(" + purchaseData.getDestinyAbbr() + ")", 16);
+				.getLabel(purchaseData.getFlightData().getDestinyAirportName() + "(" + purchaseData.getFlightData().getDestinyAbbr() + ")", 16);
 		Label bookingNumber = UIComponent.getLabel(number + "", 16);
 		ImageView cancelImageView = UIComponent.getImageView("img/cancel.png", 40, true);
 
@@ -50,15 +50,7 @@ public class SearchPurchaseEachPane extends AnchorPane {
 		SearchPurchaseEachPane.setTopLeftAnchor(cancelImageView, 30 + dist * 5 + 50 + 90, 10);
 
 		cancelImageView.setOnMouseClicked((event) -> {
-			String toAdd = purchaseData.getDepartAbbr() + "," + purchaseData.getDepartAirportName() + ","
-					+ purchaseData.getDestinyAbbr() + "," + purchaseData.getDestinyAirportName() + ","
-					+ purchaseData.getAirlineName() + "," + purchaseData.getDepartTime() + ","
-					+ purchaseData.getArrivalTime() + "," + purchaseData.getPrice() + ","
-					+ purchaseData.getDepartDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-			ArrayList<String> listOfFlightsString = IOReaderWriter
-					.getStringsFromTextFile("res/text/fly_list_extended.txt");
-			listOfFlightsString.add(toAdd);
-			IOReaderWriter.writeTextFileFromStrings(listOfFlightsString, "res/text/fly_list_extended.txt");
+			SearchFlightAvailablePane.getFlightsList().add(purchaseData.getFlightData());
 			purchasePane.getChildren().remove(this);
 			if (purchasePane.getChildren().size() == 0) {
 				purchasePane.setAlignment(Pos.CENTER);
@@ -67,8 +59,7 @@ public class SearchPurchaseEachPane extends AnchorPane {
 				label.setFont(Font.font("verdana", FontWeight.BOLD, 40));
 				purchasePane.getChildren().add(label);
 			}
-			SearchPurchasePane.purchasesList.remove(this.getPurchaseData());
-			IOReaderWriter.writeListOfPurchaseData(SearchPurchasePane.purchasesList, "res/text/purchases.txt");
+			PurchasePage.getPurchasesList().remove(this.getPurchaseData());
 		});
 
 	}

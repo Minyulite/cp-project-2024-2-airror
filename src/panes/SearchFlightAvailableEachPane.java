@@ -24,21 +24,23 @@ import logics.FlightData;
 import logics.PurchaseData;
 import logics.RequestData;
 import pages.MainPage;
+import pages.PurchasePage;
 import utils.GoTo;
 import utils.IOReaderWriter;
 import utils.UIComponent;
 
 public class SearchFlightAvailableEachPane extends AnchorPane {
-	
+
 	private FlightData flightData;
 
-	public SearchFlightAvailableEachPane(FlightData flightData, RequestData requestData, double prefWidth, double prefHeight) {
+	public SearchFlightAvailableEachPane(FlightData flightData, RequestData requestData, double prefWidth,
+			double prefHeight) {
 		super();
 		this.setFlightData(flightData);
 		this.setPrefWidth(prefWidth);
 		this.setPrefHeight(prefHeight);
 		this.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(20), Insets.EMPTY)));
-		
+
 		Label nameLabel = UIComponent.getLabel(flightData.getAirlineName(), 16);
 		Label departTimeLabel = UIComponent.getLabel(flightData.getDepartTime(), 16);
 		Label arrivalTimeLabel = UIComponent.getLabel(flightData.getArrivalTime(), 16);
@@ -46,12 +48,12 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 		Label perPersonLabel = UIComponent.getLabel("Per Person", 30);
 		Label departAbbr = UIComponent.getLabel(flightData.getDepartAbbr(), 16);
 		Label destinyAbbr = UIComponent.getLabel(flightData.getDestinyAbbr(), 16);
-		
 
-		Label durationLabel = UIComponent.getLabel(UIComponent.intMintoStrHour(UIComponent.getDuration(flightData.getDepartTime(), flightData.getArrivalTime())), 16);
+		Label durationLabel = UIComponent.getLabel(UIComponent
+				.intMintoStrHour(UIComponent.getDuration(flightData.getDepartTime(), flightData.getArrivalTime())), 16);
 		Button selectBtn = UIComponent.getButton("Select");
 		ImageView imageView = UIComponent.getImageView("img/circle_line.png", 16, true);
-		
+
 		nameLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
 		departTimeLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
 		arrivalTimeLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 22));
@@ -61,9 +63,10 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 		destinyAbbr.setFont(Font.font("Verdana", FontWeight.SEMI_BOLD, 16));
 		selectBtn.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
 		flightData.getAirlineImage().setFitHeight(125);
-		
-		this.getChildren().addAll(flightData.getAirlineImage(), nameLabel, departAbbr, destinyAbbr, departTimeLabel, arrivalTimeLabel, priceLabel, perPersonLabel, selectBtn, imageView, durationLabel);
-		
+
+		this.getChildren().addAll(flightData.getAirlineImage(), nameLabel, departAbbr, destinyAbbr, departTimeLabel,
+				arrivalTimeLabel, priceLabel, perPersonLabel, selectBtn, imageView, durationLabel);
+
 		SearchFlightAvailableEachPane.setTopLeftAnchor(flightData.getAirlineImage(), 10, 10);
 		SearchFlightAvailableEachPane.setTopLeftAnchor(nameLabel, 10, 10 + flightData.getAirlineImage().getFitHeight());
 		SearchFlightAvailableEachPane.setTopLeftAnchor(departTimeLabel, 300, 60);
@@ -75,16 +78,15 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 		SearchFlightAvailableEachPane.setTopLeftAnchor(selectBtn, 1000, 70);
 		SearchFlightAvailableEachPane.setTopLeftAnchor(imageView, 420, 80);
 		SearchFlightAvailableEachPane.setTopLeftAnchor(durationLabel, 445, 55);
-		
+
 		selectBtn.setOnMouseClicked((event) -> {
-			ArrayList<PurchaseData> pendingList = IOReaderWriter.getListOfPurchaseData("res/text/pending.txt");
-			pendingList.add(new PurchaseData(flightData, requestData.getClasses(), requestData.getAdultField(), 
-					requestData.getChildrenField(), requestData.getToddlerField()));
-			IOReaderWriter.writeListOfPurchaseData(pendingList, "res/text/pending.txt");
-			if(requestData.isReturn()) {
-				
+
+			PurchasePage.getPendingList().add(new PurchaseData(flightData, requestData.getClasses(),
+					requestData.getAdultField(), requestData.getChildrenField(), requestData.getToddlerField()));
+			if (requestData.isReturn()) {
+
 				RequestData returnRequestData = new RequestData(requestData);
-				
+
 				String departField = returnRequestData.getDepartField();
 				returnRequestData.setDepartField(returnRequestData.getDestinyField());
 				returnRequestData.setDestinyField(departField);
@@ -92,56 +94,47 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 				returnRequestData.setDepartDate(returnRequestData.getDestinyDate());
 				returnRequestData.setDestinyDate(temp);
 				returnRequestData.setReturn(false);
-				
+
 				GoTo.goToFlightAvailablePage(returnRequestData);
-			}else {
+			} else {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setHeaderText(null);
 				alert.setContentText("You are ineligible to refund tickets, please make certain before confirming");
 				alert.getButtonTypes().setAll(ButtonType.NO, ButtonType.YES);
 				Optional<ButtonType> response = alert.showAndWait();
-				if(response.isPresent() && response.get() == ButtonType.YES) {
-					// add new purchases data to text file;
-					ArrayList<PurchaseData> alreadyPurchased = IOReaderWriter.getListOfPurchaseData("res/text/purchases.txt");
-					for(PurchaseData pd : pendingList) {
-						alreadyPurchased.add(pd);
+				if (response.isPresent() && response.get() == ButtonType.YES) {
+					for (PurchaseData pd : PurchasePage.getPendingList()) {
+						PurchasePage.getPurchasesList().add(pd);
+						System.out.println(pd.getFlightData());
+						System.out.println(SearchFlightAvailablePane.getFlightsList().remove(pd.getFlightData()));
 					}
-					IOReaderWriter.writeListOfPurchaseData(alreadyPurchased, "res/text/purchases.txt");
-					
+
 					// delete selected flights data from text file;
-					/*** we are going to use IOReaderWriter.getListOfFlighData on Text file of PurchaseData.
-					 Even though it seems not right, but we can use it***/
-					ArrayList<FlightData> toDelete = IOReaderWriter.getListOfFlightData("res/text/pending.txt");
-					for(FlightData delete : toDelete) {
-						for(FlightData fd : SearchFlightAvailablePane.flightsList) {
-							if(delete.toString().equals(fd.toString())) {
-								SearchFlightAvailablePane.flightsList.remove(fd);
-								break;
-							}
-						}
-					}
-					
-					IOReaderWriter.writeListOfFlightData(SearchFlightAvailablePane.flightsList, "res/text/fly_list_extended.txt");
-					IOReaderWriter.clearTextFile("res/text/pending.txt");
+					/***
+					 * we are going to use IOReaderWriter.getListOfFlighData on Text file of
+					 * PurchaseData. Even though it seems not right, but we can use it
+					 ***/
+
+					PurchasePage.getPendingList().clear();
 					MainPage.reset();
 					GoTo.goToMainPage();
-				}else {
+				} else {
 					event.consume();
 				}
-				
+
 			}
 		});
 
 	}
-	
+
 	public FlightData getFlightData() {
 		return flightData;
 	}
-	
+
 	public void setFlightData(FlightData flightData) {
 		this.flightData = flightData;
 	}
-	
+
 	public static void setTopLeftAnchor(Node node, double left, double top) {
 		MainPage.setTopAnchor(node, top);
 		MainPage.setLeftAnchor(node, left);

@@ -58,3 +58,5 @@ KUL,Kuala Lumpur International Airport,HAN,Noi Bai International Airport,Chicken
 BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Penguin airline,05:00,06:15,2000.0,07/05/2025
 BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Goat airline,11:15,21:13,5536.0,07/05/2025
 BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Banana airline,05:00,06:15,3145.0,07/05/2025
+BKK,Suvarnabhumi Airport,CNX,Chiang Mai International Airport,Chicken airline,18:00,19:15,2000.0,07/05/2025,Economy Class,2,2,2
+CNX,Chiang Mai International Airport,BKK,Suvarnabhumi Airport,Chicken airline,21:00,04:53,7123.0,07/05/2025,Economy Class,2,2,2

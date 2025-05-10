@@ -39,7 +39,7 @@ import utils.UIComponent;
 
 public class FlightAvailablePage extends Page {
 
-	private ArrayList<String> airlinesCondition = new ArrayList<>();
+	private static ArrayList<String> airlinesCondition = new ArrayList<>();
 	private RequestData requestData;
 
 	public FlightAvailablePage(RequestData requestData) {
@@ -117,7 +117,7 @@ public class FlightAvailablePage extends Page {
 		gc.fillRect(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, UIComponent.USER_MAX_SCREEN_HEIGHT - 100);
 
 		UIComponent.drawLine(0, 260, UIComponent.USER_MAX_SCREEN_WIDTH, 260, gc);
-		Map<String, String> townName = IOReaderWriter.getMap("res/text/town.txt");
+		Map<String, String> townName = IOReaderWriter.getMap("/text/town.txt");
 		String[] departSp = requestData.getDepartField().split(" - ");
 		String[] destinySp = requestData.getDestinyField().split(" - ");
 		Label departLabel = UIComponent.getLabel(departSp[0] + "(" + townName.get(departSp[0]) + ")", 20);
@@ -170,7 +170,10 @@ public class FlightAvailablePage extends Page {
 		this.getChildren().add(backBtn);
 		FlightAvailablePage.setTopLeftAnchor(backBtn, UIComponent.USER_MAX_SCREEN_WIDTH - 220, 160);
 		backBtn.setOnMouseClicked((e) -> {
-			IOReaderWriter.clearTextFile("res/text/pending.txt");
+//			IOReaderWriter.clearTextFile("res/text/pending.txt");
+			if(PurchasePage.getPendingList().size() > 0) {
+				PurchasePage.getPendingList().remove(PurchasePage.getPendingList().size() - 1);
+			}
 			GoTo.back();
 		});
 
@@ -412,7 +415,6 @@ public class FlightAvailablePage extends Page {
 				}
 				Platform.runLater(() -> {
 					if(searchPane.getChildren().size() == 0) {
-							System.out.println("What");
 							searchPane.setAlignment(Pos.CENTER);
 							Label label = UIComponent.getLabel("SORRY, THERE AREN'T ANY AVAILABLE FLIGHTS", 40);
 							label.setFont(Font.font("verdana", FontWeight.BOLD, 40));

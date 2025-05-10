@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import logics.FlightData;
 import logics.PurchaseData;
 import panes.SearchPurchaseEachPane;
 import panes.SearchPurchasePane;
@@ -29,6 +30,10 @@ import utils.UIComponent;
 
 public class PurchasePage extends Page {
 
+	public static ArrayList<PurchaseData> pendingList = new ArrayList<>();
+
+	public static ArrayList<PurchaseData> purchasesList = new ArrayList<>();
+	
 	public PurchasePage() {
 		this.getChildren().add(this.getCanvas());
 		GraphicsContext gc = this.getCanvas().getGraphicsContext2D();
@@ -148,9 +153,9 @@ public class PurchasePage extends Page {
 			new Thread(() -> {
 				ArrayList<Node> selected = new ArrayList<>();
 				int i = 1;
-				for(PurchaseData purchaseData : SearchPurchasePane.purchasesList) {
-					if(purchaseData.getDepartDate().isAfter(nowDate) || (purchaseData.getDepartDate().isEqual(nowDate)
-							&& nowTime <= UIComponent.strHourToIntMin(purchaseData.getDepartTime()))) {
+				for(PurchaseData purchaseData : PurchasePage.getPurchasesList()) {
+					if(purchaseData.getFlightData().getDepartDate().isAfter(nowDate) || (purchaseData.getFlightData().getDepartDate().isEqual(nowDate)
+							&& nowTime <= UIComponent.strHourToIntMin(purchaseData.getFlightData().getDepartTime()))) {
 						selected.add(new SearchPurchaseEachPane(purchaseData, i, purchasesPane));
 					}
 					++i;
@@ -181,9 +186,9 @@ public class PurchasePage extends Page {
 			new Thread(() -> {
 				ArrayList<Node> selected = new ArrayList<>();
 				int i = 1;
-				for(PurchaseData purchaseData : SearchPurchasePane.purchasesList) {
-					if(purchaseData.getDepartDate().isBefore(nowDate) || (purchaseData.getDepartDate().isEqual(nowDate)
-							&& nowTime > UIComponent.strHourToIntMin(purchaseData.getDepartTime()))) {
+				for(PurchaseData purchaseData : PurchasePage.getPurchasesList()) {
+					if(purchaseData.getFlightData().getDepartDate().isBefore(nowDate) || (purchaseData.getFlightData().getDepartDate().isEqual(nowDate)
+							&& nowTime > UIComponent.strHourToIntMin(purchaseData.getFlightData().getDepartTime()))) {
 						selected.add(new SearchPurchaseEachPane(purchaseData, i, purchasesPane));
 					}
 					++i;
@@ -218,5 +223,20 @@ public class PurchasePage extends Page {
 //		this.setMaxHeight(UIComponent.USER_MAX_SCREEN_HEIGHT + 300);
 	}
 
+	public static ArrayList<PurchaseData> getPendingList() {
+		return pendingList;
+	}
+	
+	public static void setPendingList(ArrayList<PurchaseData> pendingList) {
+		PurchasePage.pendingList = pendingList;
+	}
+	
+	public static ArrayList<PurchaseData> getPurchasesList() {
+		return purchasesList;
+	}
+	
+	public static void setPurchasesList(ArrayList<PurchaseData> purchasesList) {
+		PurchasePage.purchasesList = purchasesList;
+	}
 
 }

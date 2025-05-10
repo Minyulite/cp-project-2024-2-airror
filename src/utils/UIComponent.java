@@ -116,4 +116,5 @@ public class UIComponent {
 	public static Button getButton(String name) {
 		return new Button(name);
 	}
+	
 }

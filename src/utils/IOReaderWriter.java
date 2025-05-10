@@ -1,9 +1,12 @@
 package utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,12 +29,16 @@ public class IOReaderWriter {
 	public static ArrayList<String> getStringsFromTextFile(String path) {
 		ArrayList<String> airports = new ArrayList<>();
 		try {
-			sc = new Scanner(new File(path));
+			InputStream in = IOReaderWriter.class.getResourceAsStream(path);
+			if(in == null) {
+				throw new Exception();
+			}
+			sc = new Scanner(new BufferedReader(new InputStreamReader(in)));
 			while (sc.hasNextLine()) {
 				airports.add(sc.nextLine().strip());
 			}
 			sc.close();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText(null);
 			alert.setContentText("FILE NOT FOUND");
@@ -44,7 +51,11 @@ public class IOReaderWriter {
 		ArrayList<FlightData> flightsList = new ArrayList<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		try {
-			sc = new Scanner(new File(path));
+			InputStream in = IOReaderWriter.class.getResourceAsStream(path);
+			if(in == null) {
+				throw new Exception();
+			}
+			sc = new Scanner(new BufferedReader(new InputStreamReader(in)));
 			while (sc.hasNextLine()) {
 				String[] splitted = sc.nextLine().strip().split(",");
 				String[] path1 = splitted[4].split(" ");
@@ -56,7 +67,7 @@ public class IOReaderWriter {
 				flightsList.add(flightData);
 			}
 			sc.close();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText(null);
 			alert.setContentText("FILE NOT FOUND");
@@ -65,101 +76,21 @@ public class IOReaderWriter {
 		return flightsList;
 	}
 	
-	public static ArrayList<PurchaseData> getListOfPurchaseData(String path) {
-		ArrayList<PurchaseData> purchasesList = new ArrayList<>();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		try {
-			sc = new Scanner(new File(path));
-			while (sc.hasNextLine()) {
-				String[] splitted = sc.nextLine().strip().split(",");
-				String[] path1 = splitted[4].split(" ");
-				String imageViewPath = "img/" + path1[0] + "_" + path1[1] + ".png";
-//				System.out.println(imageViewPath);
-				PurchaseData purchaseData = new PurchaseData(splitted[0], splitted[1], splitted[2], splitted[3], splitted[4],
-						UIComponent.getImageView(imageViewPath, 80, true), splitted[5], splitted[6],
-						Double.parseDouble(splitted[7]), LocalDate.parse(splitted[8], formatter), splitted[9], 
-						Integer.parseInt(splitted[10]), Integer.parseInt(splitted[11]), Integer.parseInt(splitted[12]));
-				purchasesList.add(purchaseData);
-			}
-			sc.close();
-		} catch (FileNotFoundException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setHeaderText(null);
-			alert.setContentText("FILE NOT FOUND");
-			alert.showAndWait();
-		}
-		return purchasesList;
-	}
-	
-	public static void writeTextFileFromStrings(ArrayList<String> strings, String path) {
-		try {
-			FileWriter writer = new FileWriter(path);
-			for (String s : strings) {
-				writer.write(s + "\n");
-			}
-			writer.close();
-		} catch (FileNotFoundException e1) {
-			System.out.println("File not found");
-		} catch (IOException e2) {
-			System.out.println("Could not write file");
-			e2.printStackTrace();
-		}
-	}
-
-	public static void writeListOfFlightData(ArrayList<FlightData> flightsList, String path) {
-		try {
-			FileWriter writer = new FileWriter(path);
-			for (FlightData fd : flightsList) {
-				writer.write(fd.toString() + "\n");
-			}
-			writer.close();
-		} catch (FileNotFoundException e1) {
-			System.out.println("File not found");
-		} catch (IOException e2) {
-			System.out.println("Could not write file");
-			e2.printStackTrace();
-		}
-	}
-	
-	
-	public static void writeListOfPurchaseData(ArrayList<PurchaseData> purchasesList, String path) {
-		try {
-			FileWriter writer = new FileWriter(path);
-			for (PurchaseData pd : purchasesList) {
-				writer.write(pd.toString() + "\n");
-			}
-			writer.close();
-		} catch (FileNotFoundException e1) {
-			System.out.println("File not found");
-		} catch (IOException e2) {
-			System.out.println("Could not write file");
-			e2.printStackTrace();
-		}
-	}
-	
-	public static void clearTextFile(String path) {
-		try {
-			FileWriter writer = new FileWriter(path);
-			writer.write("");
-			writer.close();
-		} catch (FileNotFoundException e1) {
-			System.out.println("File not found");
-		} catch (IOException e2) {
-			System.out.println("Could not write file");
-			e2.printStackTrace();
-		}
-	}
 
 	public static Map<String, String> getMap(String path) {
 		Map<String, String> mp = new HashMap<String, String>();
 		try {
-			sc = new Scanner(new File(path));
+			InputStream in = IOReaderWriter.class.getResourceAsStream(path);
+			if(in == null) {
+				throw new Exception();
+			}
+			sc = new Scanner(new BufferedReader(new InputStreamReader(in)));
 			while (sc.hasNextLine()) {
 				String[] splitted = sc.nextLine().split(",");
 				mp.put(splitted[0].strip(), splitted[1].strip());
 			}
 			sc.close();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setHeaderText(null);
 			alert.setContentText("FILE NOT FOUND");

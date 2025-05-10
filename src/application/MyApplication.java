@@ -43,6 +43,7 @@ public class MyApplication extends Application {
 	@Override
 	public void start(Stage stage) {
 		GoTo.goToLoginPage();
+//		GoTo.goToMainPage();
 		setStageStyle(stage);
 
 		stage.show();

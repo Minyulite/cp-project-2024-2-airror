@@ -28,8 +28,8 @@ public class GoTo {
 		MyApplication.getListOfRoots().add(root);
 	}
 
-	public static void goToFlightAvailablePage(RequestData flightData) {
-		AnchorPane root = new FlightAvailablePage(flightData);
+	public static void goToFlightAvailablePage(RequestData requestData) {
+		AnchorPane root = new FlightAvailablePage(requestData);
 
 		if (MyApplication.getScene() == null) {
 			MyApplication.setScene(new Scene(root, 800, 800));

@@ -4,26 +4,14 @@ import java.time.LocalDate;
 
 import javafx.scene.image.ImageView;
 
-public class PurchaseData extends FlightData {
+public class PurchaseData {
 
 	private String classes;
 	private int adultField, childrenField, toddlerField;
-	
-	public PurchaseData(String departAbbr, String departAirportName, String destinyAbbr, String destinyAirportName,
-			String airlineName, ImageView airlineImage, String departTime, String arrivalTime, double price,
-			LocalDate departDate, String classes, int adultField, int childrenField, int toddlerField) {
-		super(departAbbr, departAirportName, destinyAbbr, destinyAirportName, airlineName, airlineImage, departTime,
-				arrivalTime, price, departDate);
-	
-		this.setClasses(classes);
-		this.setAdultField(adultField);
-		this.setChildrenField(childrenField);
-		this.setToddlerField(toddlerField);
-	}
+	private FlightData flightData;
 	
 	public PurchaseData(FlightData flightData, String classes, int adultField, int childrenField, int toddlerField) {
-		super(flightData.getDepartAbbr(), flightData.getDepartAirportName(), flightData.getDestinyAbbr(), flightData.getDestinyAirportName(), 
-				flightData.getAirlineName(), flightData.getAirlineImage(), flightData.getDepartTime(), flightData.getArrivalTime(), flightData.getPrice(), flightData.getDepartDate());
+		this.setFlightData(flightData);
 		this.setClasses(classes);
 		this.setAdultField(adultField);
 		this.setChildrenField(childrenField);
@@ -32,7 +20,7 @@ public class PurchaseData extends FlightData {
 	
 	@Override
 	public String toString() {
-		return super.toString() + "," + this.getClasses() + "," + this.getAdultField() + "," + this.getChildrenField() + "," + this.getToddlerField();
+		return this.getFlightData().toString() + "," + this.getClasses() + "," + this.getAdultField() + "," + this.getChildrenField() + "," + this.getToddlerField();
 	}
 
 	public String getClasses() {
@@ -65,6 +53,14 @@ public class PurchaseData extends FlightData {
 
 	public void setToddlerField(int toddlerField) {
 		this.toddlerField = toddlerField;
+	}
+	
+	public FlightData getFlightData() {
+		return flightData;
+	}
+	
+	public void setFlightData(FlightData flightData) {
+		this.flightData = flightData;
 	}
 
 }

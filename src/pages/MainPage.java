@@ -50,6 +50,7 @@ import panes.SearchAirportPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class MainPage extends Page {
 	public static MainPage mainPageInstance = null;
@@ -87,41 +88,41 @@ public class MainPage extends Page {
 
 	}
 
-	public void setAds(GraphicsContext gc) {
-
-		adsThread = new Thread(() -> {
-			int start = 0;
-			Image ads = UIComponent.getImage("img/ads.png", 1847 / 461 * 325, 520, true, true);
-			while (true) {
-//				ImageView ads = UIComponent.getImageView("img/ads.png", 325, true);
-				if (Thread.currentThread().isInterrupted()) {
-					break;
-				}
-				WritableImage croppedImage = new WritableImage(ads.getPixelReader(), start, 0,
-						(int) (ads.getWidth() / 2) - 10, (int) ads.getHeight());
-				Platform.runLater(() -> {
-					gc.clearRect((UIComponent.USER_MAX_SCREEN_WIDTH - 980) / 2 + 175, 520,
-							(int) (ads.getWidth() / 2) - 10, (int) ads.getHeight());
-					gc.drawImage(croppedImage, (UIComponent.USER_MAX_SCREEN_WIDTH - 980) / 2 + 175, 520);
-				});
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					break;
-//					e.printStackTrace();
-				}
-//				MainPage.setTopLeftAnchor(ads, (UIComponent.USER_MAX_SCREEN_WIDTH - 1847/461*325)/2, 520);
-				start += 3.5;
-				if (start > (int) (ads.getWidth()) / 2) {
-					start = 0;
-				}
-			}
-		});
-
-		adsThread.start();
-
-	}
+//	public void setAds(GraphicsContext gc) {
+//
+//		adsThread = new Thread(() -> {
+//			int start = 0;
+//			Image ads = UIComponent.getImage("img/ads.png", 1847 / 461 * 325, 520, true, true);
+//			while (true) {
+////				ImageView ads = UIComponent.getImageView("img/ads.png", 325, true);
+//				if (Thread.currentThread().isInterrupted()) {
+//					break;
+//				}
+//				WritableImage croppedImage = new WritableImage(ads.getPixelReader(), start, 0,
+//						(int) (ads.getWidth() / 2) - 10, (int) ads.getHeight());
+//				Platform.runLater(() -> {
+//					gc.clearRect((UIComponent.USER_MAX_SCREEN_WIDTH - 980) / 2 + 175, 520,
+//							(int) (ads.getWidth() / 2) - 10, (int) ads.getHeight());
+//					gc.drawImage(croppedImage, (UIComponent.USER_MAX_SCREEN_WIDTH - 980) / 2 + 175, 520);
+//				});
+//				try {
+//					Thread.sleep(100);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					break;
+////					e.printStackTrace();
+//				}
+////				MainPage.setTopLeftAnchor(ads, (UIComponent.USER_MAX_SCREEN_WIDTH - 1847/461*325)/2, 520);
+//				start += 3.5;
+//				if (start > (int) (ads.getWidth()) / 2) {
+//					start = 0;
+//				}
+//			}
+//		});
+//
+//		adsThread.start();
+//
+//	}
 
 	public static void setFont(Label[] arr, Font font) {
 		for (Label node : arr) {
@@ -151,7 +152,7 @@ public class MainPage extends Page {
 
 		// not yet add EventHandler!!!!!!!!!!!
 		Text home, purchases, aboutUs;
-		ImageView userImageView;
+		ImageView userImageView, logoutImageView;
 		header.getChildren().add(home = UIComponent.getText("Home", 20));
 		home.setOnMouseClicked((e) -> GoTo.goToMainPage());
 		header.getChildren().add(purchases = UIComponent.getText("Purchases", 20));
@@ -163,11 +164,23 @@ public class MainPage extends Page {
 		
 		userProfile.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
 		userProfile.getChildren().add(UIComponent.getText(LoginPage.loginUsername, 20));
+		userProfile.getChildren().add(logoutImageView = UIComponent.getImageView("img/logout.png", 35, true));
 		userProfile.setSpacing(10);
 		userProfile.setAlignment(Pos.CENTER);
 		
+		logoutImageView.setOnMouseClicked((event) -> {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setHeaderText(null);
+			alert.setContentText("Do you want to leave?");
+			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+			Optional<ButtonType> response = alert.showAndWait();
+			if(response.isPresent() && response.get() == ButtonType.YES) {
+				GoTo.goToLoginPage();
+			}
+		});
+		
 		header.getChildren().add(userProfile);
-		header.setSpacing(30);
+		header.setSpacing(35);
 
 		borderPane.setRight(header);
 //		BorderPane.setAlignment(header, Pos.CENTER);
@@ -346,7 +359,7 @@ public class MainPage extends Page {
 		choiceBox.setPrefWidth(100);
 		this.getChildren().add(choiceBox);
 		MainPage.setTopLeftAnchor(choiceBox, 1000.0, 365.0);
-		choiceBox.getItems().addAll(IOReaderWriter.getStringsFromTextFile("res/text/classes.txt"));
+		choiceBox.getItems().addAll(IOReaderWriter.getStringsFromTextFile("/text/classes.txt"));
 
 		Button searchBtn, resetBtn;
 		this.getChildren().add(searchBtn = UIComponent.getButton("Search"));
@@ -389,7 +402,6 @@ public class MainPage extends Page {
 						Integer.parseInt(adultField.getText()), Integer.parseInt(childrenField.getText()),
 						Integer.parseInt(toddlerField.getText()), checkBox.isSelected(), choiceBox.getValue()));
 			} catch (IncorrectFillFormException e1) {
-				System.out.println("1");
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setHeaderText(null);
 				alert.setContentText("Please fill the informations in its \"CORRECT\" form");
@@ -402,7 +414,6 @@ public class MainPage extends Page {
 				alert.getButtonTypes().setAll(ButtonType.OK);
 				alert.showAndWait();
 			} catch (IncorrectAndPartialFillFormException e3) {
-				System.out.println("3");
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setHeaderText(null);
 				alert.setContentText("Please fill the informations in its \"CORRECT\" form and fill all the \"IMPORTANT\" information");
@@ -417,7 +428,7 @@ public class MainPage extends Page {
 		departField.setText("");
 		destinyField.setText("");
 		departDatePicker.setValue(null);
-//		destinyDatePicker.setValue(null);
+		destinyDatePicker.setValue(null);
 		destinyDatePicker.setDisable(true);
 		adultField.setText("");
 		childrenField.setText("");

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class SearchAirportPane extends VBox implements Searchable {
 	public static SearchAirportPane searchPageInstance = null;
 	public static ArrayList<String> airports = IOReaderWriter
-			.getStringsFromTextFile("res/text/Asian_Airports_Abbreviated.txt");
+			.getStringsFromTextFile("/text/Asian_Airports_Abbreviated.txt");
 
 	public SearchAirportPane(String condition) {
 //		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));

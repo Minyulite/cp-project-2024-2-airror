@@ -27,11 +27,10 @@ import utils.UIComponent;
 
 public class LoginPage extends Page {
 
-	private static Map<String, String> passwords;
+	private static Map<String, String> passwords = IOReaderWriter.getMap("/text/username_password.txt");
 	public static String loginUsername = null;
 	
 	public LoginPage() {
-		passwords = IOReaderWriter.getMap("res/text/username_password.txt");
 		BackgroundImage myBackground = new BackgroundImage(new Image(ClassLoader.getSystemResource("img/login_background_half.png").toString(), UIComponent.USER_MAX_SCREEN_WIDTH * 2 / 3, UIComponent.USER_MAX_SCREEN_HEIGHT, true, false),
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
 				BackgroundSize.DEFAULT);
@@ -102,9 +101,8 @@ public class LoginPage extends Page {
 			pers.setText("Sign up to unlock flights, freedom, and your next adventure.");
 			loginBtn.setText("sign up");
 			loginBtn.setOnAction((event1) -> {
-				ArrayList<String> pw = IOReaderWriter.getStringsFromTextFile("res/text/username_password.txt");
-				pw.add(usernameField.getText().strip() + "," + passwordField.getText().strip());
-				IOReaderWriter.writeTextFileFromStrings(pw, "res/text/username_password.txt");
+				LoginPage.loginUsername = usernameField.getText();
+				passwords.put(usernameField.getText().strip(), passwordField.getText().strip());
 				GoTo.goToLoginPage();
 			});
 		});
