@@ -37,18 +37,6 @@ public class RequestData {
 		this.setClasses(requestData.getClasses());
 	}
 
-	public static boolean isCorrectData(String departField, String destinyField, LocalDate departDate,
-			LocalDate destinyDate, int adultField, int childrenField, int toddlerField, Boolean isReturn,
-			String classes) {
-		int total = adultField + childrenField + toddlerField;
-//		System.out.println(departDate);
-		if (departField == null || destinyField == null || departDate == null || total == 0
-				|| (isReturn && destinyDate == null) || classes == null) {
-			return false;
-		}
-		return true;
-	}
-
 	public String getDepartField() {
 		return departField;
 	}

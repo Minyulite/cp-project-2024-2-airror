@@ -43,14 +43,15 @@ import utils.GoTo;
 import utils.IOReaderWriter;
 import utils.UIComponent;
 import application.MyApplication;
+import exceptions.IncorrectAndPartialFillFormException;
 import exceptions.IncorrectFillFormException;
-import exceptions.PartiallyFillFormException;
-import panes.SearchPane;
+import exceptions.PartialFillFormException;
+import panes.SearchAirportPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainPage extends Pages {
+public class MainPage extends Page {
 	public static MainPage mainPageInstance = null;
 	public static ScrollPane departSearchBar = null;
 	public static ScrollPane destinySearchBar = null;
@@ -93,13 +94,14 @@ public class MainPage extends Pages {
 			Image ads = UIComponent.getImage("img/ads.png", 1847 / 461 * 325, 520, true, true);
 			while (true) {
 //				ImageView ads = UIComponent.getImageView("img/ads.png", 325, true);
-				if(Thread.currentThread().isInterrupted()) {
+				if (Thread.currentThread().isInterrupted()) {
 					break;
 				}
 				WritableImage croppedImage = new WritableImage(ads.getPixelReader(), start, 0,
 						(int) (ads.getWidth() / 2) - 10, (int) ads.getHeight());
 				Platform.runLater(() -> {
-					gc.clearRect((UIComponent.USER_MAX_SCREEN_WIDTH - 980) / 2 + 175, 520, (int) (ads.getWidth() / 2) - 10, (int) ads.getHeight());
+					gc.clearRect((UIComponent.USER_MAX_SCREEN_WIDTH - 980) / 2 + 175, 520,
+							(int) (ads.getWidth() / 2) - 10, (int) ads.getHeight());
 					gc.drawImage(croppedImage, (UIComponent.USER_MAX_SCREEN_WIDTH - 980) / 2 + 175, 520);
 				});
 				try {
@@ -188,16 +190,16 @@ public class MainPage extends Pages {
 		MainPage.setTopAnchor(head, 160.0);
 		MainPage.setLeftAnchor(head, 210.0);
 
-		ImageView depart, target, date1, date2, twoWay, people, classes;
+		ImageView depart, target, date1, date2, swap, people, classes;
 		MainPage.setTopLeftAnchor(depart = UIComponent.getImageView("img/depart.png", 50, true), 230.0, 200.0);
 		MainPage.setTopLeftAnchor(target = UIComponent.getImageView("img/target.png", 50, true), 580.0, 200.0);
 		MainPage.setTopLeftAnchor(people = UIComponent.getImageView("img/people.png", 50, true), 930.0, 200.0);
 		MainPage.setTopLeftAnchor(date1 = UIComponent.getImageView("img/date.png", 50, true), 230.0, 355.0);
 		MainPage.setTopLeftAnchor(date2 = UIComponent.getImageView("img/date.png", 50, true), 580.0, 355.0);
 		MainPage.setTopLeftAnchor(classes = UIComponent.getImageView("img/classes.png", 50, true), 930.0, 315.0);
-		MainPage.setTopLeftAnchor(twoWay = UIComponent.getImageView("img/two_way.png", 50, true), 520.0, 260.0);
+		MainPage.setTopLeftAnchor(swap = UIComponent.getImageView("img/swap.png", 50, true), 520.0, 260.0);
 
-		this.getChildren().addAll(depart, target, people, date1, date2, classes, twoWay);
+		this.getChildren().addAll(depart, target, people, date1, date2, classes, swap);
 
 		Label departLabel, targetLabel, dateLabel1, dateLabel2, peopleLabel, classLabel;
 		MainPage.setTopLeftAnchor(departLabel = UIComponent.getLabel("\u00B7 From", 16), 300.0, 215.0);
@@ -222,7 +224,7 @@ public class MainPage extends Pages {
 					this.getChildren().remove(departSearchBar);
 					departSearchBar = null;
 				}
-				VBox departSearchPage = new SearchPane(departField.getText() + " 1");
+				VBox departSearchPage = new SearchAirportPane(departField.getText() + " 1");
 				if (departSearchPage.getChildren().size() == 0) {
 					return;
 				}
@@ -257,7 +259,7 @@ public class MainPage extends Pages {
 					this.getChildren().remove(destinySearchBar);
 					destinySearchBar = null;
 				}
-				VBox destinySearchPage = new SearchPane(destinyField.getText() + " 2");
+				VBox destinySearchPage = new SearchAirportPane(destinyField.getText() + " 2");
 				if (destinySearchPage.getChildren().size() == 0) {
 					return;
 				}
@@ -268,6 +270,13 @@ public class MainPage extends Pages {
 				MainPage.setTopLeftAnchor(destinySearchBar, 580, 300);
 			}
 		});
+
+		swap.setOnMouseClicked((event) -> {
+			String temp = departField.getText();
+			departField.setText(destinyField.getText());
+			destinyField.setText(temp);
+		});
+
 		ImageView cancel2;
 		MainPage.setTopLeftAnchor(cancel2 = UIComponent.getImageView("img/cancel.png", 30, true), 830.0, 270.0);
 		this.getChildren().add(cancel2);
@@ -343,22 +352,34 @@ public class MainPage extends Pages {
 
 		// Exception
 		searchBtn.setOnMouseClicked((e) -> {
+			boolean incorrectFill = false;
+			boolean partialFill = false;
 			try {
-				if (RequestData.isCorrectData(this.departField.getText(), this.destinyField.getText(),
-						this.departDatePicker.getValue(), this.destinyDatePicker.getValue(),
-						Integer.parseInt(adultField.getText()), Integer.parseInt(childrenField.getText()),
-						Integer.parseInt(toddlerField.getText()), checkBox.isSelected(), choiceBox.getValue())) {
-					GoTo.goToFlightAvailablePage(new RequestData(departField.getText(), destinyField.getText(),
-							departDatePicker.getValue(), destinyDatePicker.getValue(),
-							Integer.parseInt(adultField.getText()), Integer.parseInt(childrenField.getText()),
-							Integer.parseInt(toddlerField.getText()), checkBox.isSelected(), choiceBox.getValue()));
-				} else if (departField.getText() == null || departField.getText() == null
-						|| departDatePicker.getValue() == null
-						|| (checkBox.isSelected() || destinyDatePicker.getValue() == null)) {
-					throw new PartiallyFillFormException();
-				} else {
-					throw new IncorrectFillFormException("");
+				int total = -1;
+				try {
+					int adult = Integer.parseInt(adultField.getText());
+					int children = Integer.parseInt(childrenField.getText());
+					int toddler = Integer.parseInt(toddlerField.getText());
+					String test1 = departField.getText().split(" - ")[1];
+					String test2 = destinyField.getText().split(" - ")[1];
+					total = adult + children + toddler;
+				} catch(Exception e0) {
+					incorrectFill = true;
 				}
+				if (departField.getText() == "" || destinyField.getText() == "" || departDatePicker.getValue() == null
+						|| (checkBox.isSelected() && destinyDatePicker.getValue() == null) || choiceBox.getValue() == null
+						|| total == 0) {
+					partialFill = true;
+				}
+				
+				if(incorrectFill && partialFill) throw new IncorrectAndPartialFillFormException();
+				else if(incorrectFill) throw new IncorrectFillFormException();
+				else if(partialFill) throw new PartialFillFormException();
+
+				GoTo.goToFlightAvailablePage(new RequestData(departField.getText(), destinyField.getText(),
+						departDatePicker.getValue(), destinyDatePicker.getValue(),
+						Integer.parseInt(adultField.getText()), Integer.parseInt(childrenField.getText()),
+						Integer.parseInt(toddlerField.getText()), checkBox.isSelected(), choiceBox.getValue()));
 			} catch (IncorrectFillFormException e1) {
 				System.out.println("1");
 				Alert alert = new Alert(AlertType.WARNING);
@@ -366,17 +387,17 @@ public class MainPage extends Pages {
 				alert.setContentText("Please fill the informations in its \"CORRECT\" form");
 				alert.getButtonTypes().setAll(ButtonType.OK);
 				alert.showAndWait();
-			} catch (PartiallyFillFormException e2) {
+			} catch (PartialFillFormException e2) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setHeaderText(null);
 				alert.setContentText("Please fill all the \"IMPORTANT\" information");
 				alert.getButtonTypes().setAll(ButtonType.OK);
 				alert.showAndWait();
-			} catch (Exception e3) {
+			} catch (IncorrectAndPartialFillFormException e3) {
 				System.out.println("3");
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setHeaderText(null);
-				alert.setContentText("Please fill the informations in its \"CORRECT\" form");
+				alert.setContentText("Please fill the informations in its \"CORRECT\" form and fill all the \"IMPORTANT\" information");
 				alert.getButtonTypes().setAll(ButtonType.OK);
 				alert.showAndWait();
 			}
