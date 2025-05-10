@@ -28,7 +28,7 @@ public class IOReaderWriter {
 		try {
 			sc = new Scanner(new File(path));
 			while (sc.hasNextLine()) {
-				airports.add(sc.nextLine());
+				airports.add(sc.nextLine().strip());
 			}
 			sc.close();
 		} catch (FileNotFoundException e) {
@@ -89,6 +89,21 @@ public class IOReaderWriter {
 			alert.showAndWait();
 		}
 		return purchasesList;
+	}
+	
+	public static void writeTextFileFromStrings(ArrayList<String> strings, String path) {
+		try {
+			FileWriter writer = new FileWriter(path);
+			for (String s : strings) {
+				writer.write(s + "\n");
+			}
+			writer.close();
+		} catch (FileNotFoundException e1) {
+			System.out.println("File not found");
+		} catch (IOException e2) {
+			System.out.println("Could not write file");
+			e2.printStackTrace();
+		}
 	}
 
 	public static void writeListOfFlightData(ArrayList<FlightData> flightsList, String path) {
