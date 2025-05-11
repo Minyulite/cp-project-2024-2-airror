@@ -22,8 +22,7 @@ import java.util.ArrayList;
 
 public class SearchAirportPane extends VBox implements Searchable {
 	public static SearchAirportPane searchPageInstance = null;
-	public static ArrayList<String> airports = IOReaderWriter
-			.getStringsFromTextFile("/text/Asian_Airports_Abbreviated.txt");
+	public static ArrayList<String> airports = null;
 
 	public SearchAirportPane(String condition) {
 //		this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
@@ -83,5 +82,21 @@ public class SearchAirportPane extends VBox implements Searchable {
 				++i;
 			}
 		}
+	}
+	
+	public static SearchAirportPane getSearchPageInstance() {
+		return searchPageInstance;
+	}
+
+	public static void setSearchPageInstance(SearchAirportPane searchPageInstance) {
+		SearchAirportPane.searchPageInstance = searchPageInstance;
+	}
+
+	public static ArrayList<String> getAirports() {
+		return airports;
+	}
+
+	public static void setAirports(ArrayList<String> airports) {
+		SearchAirportPane.airports = airports;
 	}
 }

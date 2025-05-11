@@ -37,7 +37,7 @@ public class PurchasePage extends Page {
 
 	public static ArrayList<PurchaseData> pendingList = new ArrayList<>();
 
-	public static ArrayList<PurchaseData> purchasesList = new ArrayList<>();
+	public static ArrayList<PurchaseData> purchasesList;
 	
 	public PurchasePage() {
 		this.getChildren().add(this.getCanvas());

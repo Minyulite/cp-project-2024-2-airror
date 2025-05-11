@@ -17,11 +17,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import logics.FlightData;
 import logics.RequestData;
+import pages.FlightAvailablePage;
 import utils.IOReaderWriter;
 import utils.UIComponent;
 
 public class SearchFlightAvailablePane extends VBox implements Searchable {
-	public static ArrayList<FlightData> flightsList = IOReaderWriter.getListOfFlightData("/text/fly_list_extended.txt");
 	public ArrayList<FlightData> flightsSelected = new ArrayList<>();
 	
 	public SearchFlightAvailablePane(RequestData requestData) {
@@ -44,21 +44,13 @@ public class SearchFlightAvailablePane extends VBox implements Searchable {
 		RequestData requestData = (RequestData) obj;
 		String reqDepartAbbr = requestData.getDepartField().split(" - ")[0];
 		String reqDestinyAbbr = requestData.getDestinyField().split(" - ")[0];
-		for(FlightData flightData : flightsList) {
+		for(FlightData flightData : FlightAvailablePage.getFlightsList()) {
 			if(flightData.getDepartAbbr().equals(reqDepartAbbr) && flightData.getDestinyAbbr().equals(reqDestinyAbbr) && flightData.getDepartDate().isEqual(requestData.getDepartDate())) {
 				AnchorPane temp;
 				this.getChildren().add(temp = new SearchFlightAvailableEachPane(flightData, requestData, UIComponent.USER_MAX_SCREEN_WIDTH - 500, 200));
 				flightsSelected.add(flightData);
 			}
 		}
-	}
-
-	public static ArrayList<FlightData> getFlightsList() {
-		return flightsList;
-	}
-
-	public static void setFlightsList(ArrayList<FlightData> flightsList) {
-		SearchFlightAvailablePane.flightsList = flightsList;
 	}
 
 	public ArrayList<FlightData> getFlightsSelected() {

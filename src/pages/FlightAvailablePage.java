@@ -43,8 +43,10 @@ import utils.IOReaderWriter;
 import utils.UIComponent;
 
 public class FlightAvailablePage extends Page {
-
+	
+	public static ArrayList<FlightData> flightsList;
 	private static ArrayList<String> airlinesCondition = new ArrayList<>();
+	public static Map<String, String> townName = null;
 	private RequestData requestData;
 
 	public FlightAvailablePage(RequestData requestData) {
@@ -143,7 +145,6 @@ public class FlightAvailablePage extends Page {
 		gc.fillRect(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, UIComponent.USER_MAX_SCREEN_HEIGHT - 100);
 
 		UIComponent.drawLine(0, 260, UIComponent.USER_MAX_SCREEN_WIDTH, 260, gc);
-		Map<String, String> townName = IOReaderWriter.getMap("/text/town.txt");
 		String[] departSp = requestData.getDepartField().split(" - ");
 		String[] destinySp = requestData.getDestinyField().split(" - ");
 		Label departLabel = UIComponent.getLabel(departSp[0] + "(" + townName.get(departSp[0]) + ")", 20);
@@ -253,6 +254,14 @@ public class FlightAvailablePage extends Page {
 		for (int i = 1; i <= labelNode.length; ++i) {
 			FlightAvailablePage.setTopLeftAnchor(checkNode[i - 1], 15, 295 + 50 * i);
 			FlightAvailablePage.setTopLeftAnchor(labelNode[i - 1], 15 + 40, 295 + 50 * i);
+			
+			checkNode[i - 1].setOnMouseEntered((event) -> {
+				this.setCursor(Cursor.HAND);
+			});
+			
+			checkNode[i - 1].setOnMouseExited((event) -> {
+				this.setCursor(Cursor.DEFAULT);
+			});
 		}
 
 		SearchFlightAvailablePane searchPane = new SearchFlightAvailablePane(requestData);
@@ -285,10 +294,21 @@ public class FlightAvailablePage extends Page {
 		ImageView priceTriangle = UIComponent.getImageView("img/triangle.png", 30, true);
 		ImageView durationTriangle = UIComponent.getImageView("img/triangle.png", 30, true);
 		ImageView arrivalTimeTriangle = UIComponent.getImageView("img/triangle.png", 30, true);
-
+		
 		priceSort.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		durationSort.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 		arrivalTimeSort.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		
+		ImageView[] images = {priceTriangle, durationTriangle, arrivalTimeTriangle};
+		for(int i = 0; i < images.length; ++i) {
+			images[i].setOnMouseEntered((event) -> {
+				this.setCursor(Cursor.HAND);
+			});
+			
+			images[i].setOnMouseExited((event) -> {
+				this.setCursor(Cursor.DEFAULT);
+			});
+		}
 
 		this.getChildren().addAll(priceSort, durationSort, arrivalTimeSort, priceTriangle, durationTriangle,
 				arrivalTimeTriangle);
@@ -476,5 +496,13 @@ public class FlightAvailablePage extends Page {
 
 	public void setRequestData(RequestData requestData) {
 		this.requestData = requestData;
+	}
+	
+	public static ArrayList<FlightData> getFlightsList() {
+		return flightsList;
+	}
+
+	public static void setFlightsList(ArrayList<FlightData> flightsList) {
+		FlightAvailablePage.flightsList = flightsList;
 	}
 }

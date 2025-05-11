@@ -265,6 +265,14 @@ public class MainPage extends Page {
 			}
 			departField.setText("");
 		});
+		
+		cancel.setOnMouseEntered((e) -> {
+			this.setCursor(Cursor.HAND);
+		});
+		
+		cancel.setOnMouseExited((e) -> {
+			this.setCursor(Cursor.DEFAULT);
+		});
 
 		destinyField = UIComponent.getTextField("", 280, 30);
 		destinyField.setPromptText("Select your destiny");
@@ -306,6 +314,15 @@ public class MainPage extends Page {
 			}
 			destinyField.setText("");
 		});
+		
+		cancel2.setOnMouseEntered((e) -> {
+			this.setCursor(Cursor.HAND);
+		});
+		
+		cancel2.setOnMouseExited((e) -> {
+			this.setCursor(Cursor.DEFAULT);
+		});
+
 
 		// DatePicker
 		departDatePicker = UIComponent.getDatePicker();

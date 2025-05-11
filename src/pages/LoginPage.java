@@ -28,7 +28,8 @@ import utils.UIComponent;
 
 public class LoginPage extends Page {
 
-	private static Map<String, String> passwords = IOReaderWriter.getMap("/text/username_password.txt");
+	private static Map<String, String> passwords;
+
 	public static String loginUsername = null;
 	
 	public LoginPage() {
@@ -147,6 +148,22 @@ public class LoginPage extends Page {
 	public void setStyle() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public static Map<String, String> getPasswords() {
+		return passwords;
+	}
+	
+	public static void setPasswords(Map<String, String> passwords) {
+		LoginPage.passwords = passwords;
+	}
+	
+	public static String getLoginUsername() {
+		return loginUsername;
+	}
+	
+	public static void setLoginUsername(String loginUsername) {
+		LoginPage.loginUsername = loginUsername;
 	}
 
 }

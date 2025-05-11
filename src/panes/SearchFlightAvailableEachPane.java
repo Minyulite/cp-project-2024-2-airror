@@ -24,6 +24,7 @@ import javafx.scene.text.FontWeight;
 import logics.FlightData;
 import logics.PurchaseData;
 import logics.RequestData;
+import pages.FlightAvailablePage;
 import pages.MainPage;
 import pages.PurchasePage;
 import utils.GoTo;
@@ -107,8 +108,7 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 				if (response.isPresent() && response.get() == ButtonType.YES) {
 					for (PurchaseData pd : PurchasePage.getPendingList()) {
 						PurchasePage.getPurchasesList().add(pd);
-						System.out.println(pd.getFlightData());
-						System.out.println(SearchFlightAvailablePane.getFlightsList().remove(pd.getFlightData()));
+						FlightAvailablePage.getFlightsList().remove(pd.getFlightData());
 					}
 
 					PurchasePage.getPendingList().clear();
