@@ -70,20 +70,15 @@ public class MainPage extends Page {
 	public static Thread adsThread = null;
 
 	private MainPage() {
-		// initiate canvas
 		this.getChildren().add(this.getCanvas());
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		setStyle();
 
-		// **header**//
 		setHeader(gc);
 
-		// **middle**//
 		setMiddle(gc);
 
-//		gc.fillRect(0, UIComponent.USER_MAX_SCREEN_HEIGHT, UIComponent.USER_MAX_SCREEN_WIDTH, 2000);
-		// **ads"//
 //		setAds(gc);
 
 	}
@@ -124,16 +119,9 @@ public class MainPage extends Page {
 //
 //	}
 
-	public static void setFont(Label[] arr, Font font) {
-		for (Label node : arr) {
-			node.setFont(font);
-		}
-	}
 
 	public void setStyle() {
 		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
-//		this.setPrefHeight(UIComponent.USER_MAX_SCREEN_HEIGHT + 300);
-//		this.setMaxHeight(UIComponent.USER_MAX_SCREEN_HEIGHT + 300);
 	}
 
 	public void setHeader(GraphicsContext gc) {
@@ -150,14 +138,16 @@ public class MainPage extends Page {
 
 		header.setAlignment(Pos.CENTER);
 
-		// not yet add EventHandler!!!!!!!!!!!
 		Text home, purchases, aboutUs;
 		ImageView userImageView, logoutImageView;
+		
 		header.getChildren().add(home = UIComponent.getText("Home", 20));
-		home.setOnMouseClicked((e) -> GoTo.goToMainPage());
 		header.getChildren().add(purchases = UIComponent.getText("Purchases", 20));
-		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
 		header.getChildren().add(aboutUs = UIComponent.getText("About us", 20));
+
+		// add EventHandler
+		home.setOnMouseClicked((e) -> GoTo.goToMainPage(false));
+		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
 		aboutUs.setOnMouseClicked((e) -> GoTo.goToAboutUsPage());
 		
 		HBox userProfile = new HBox();
@@ -179,25 +169,32 @@ public class MainPage extends Page {
 			}
 		});
 		
+		Node[] toSetCursor = {home, purchases, aboutUs, logoutImageView};
+		for(Node node : toSetCursor) {
+			node.setOnMouseEntered((event) -> {
+				this.setCursor(Cursor.HAND);
+			});
+			node.setOnMouseExited((event) -> {
+				this.setCursor(Cursor.DEFAULT);
+			});
+		}
+		
 		header.getChildren().add(userProfile);
 		header.setSpacing(35);
 
 		borderPane.setRight(header);
-//		BorderPane.setAlignment(header, Pos.CENTER);
-		// **header
+		
 		this.getChildren().add(borderPane);
 		MainPage.setLeftAnchor(borderPane, 0.0);
 		MainPage.setRightAnchor(borderPane, 50.0);
 
 		gc.setFill(Color.WHITE);
 		gc.fillRect(0, 0, UIComponent.USER_MAX_SCREEN_WIDTH, 100);
-//		UIComponent.drawLine(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, 100, gc);
-		// **header
 	}
 
 //	@Override
 	public void setMiddle(GraphicsContext gc) {
-		// **middle
+
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0, 100, UIComponent.USER_MAX_SCREEN_WIDTH, 400);
 		gc.setFill(Color.web("#3c9cf0"));
@@ -231,7 +228,7 @@ public class MainPage extends Page {
 		MainPage.setTopLeftAnchor(classLabel = UIComponent.getLabel("\u00B7 Class", 16), 1000.0, 330.0);
 		this.getChildren().addAll(departLabel, targetLabel, peopleLabel, dateLabel1, dateLabel2, classLabel);
 		Label[] arr = { departLabel, targetLabel, peopleLabel, dateLabel1, dateLabel2, classLabel };
-		setFont(arr, Font.font("Arial", FontWeight.BOLD, 16));
+		UIComponent.setFont(arr, Font.font("Arial", FontWeight.BOLD, 16));
 
 		// Search
 		departField = UIComponent.getTextField("", 280, 30);
@@ -365,13 +362,13 @@ public class MainPage extends Page {
 		this.getChildren().add(searchBtn = UIComponent.getButton("Search"));
 		this.getChildren().add(resetBtn = UIComponent.getButton("Reset"));
 		MainPage.setTopLeftAnchor(searchBtn, 1245, 410);
-		MainPage.setTopLeftAnchor(resetBtn, 1191, 410);
+		MainPage.setTopLeftAnchor(resetBtn, 1176, 410);
 
 		resetBtn.setOnMouseClicked((e) -> {
 			reset();
 		});
 
-		// Exception
+		// Handle Exceptions
 		searchBtn.setOnMouseClicked((e) -> {
 			boolean incorrectFill = false;
 			boolean partialFill = false;
@@ -422,6 +419,43 @@ public class MainPage extends Page {
 			}
 		});
 
+		
+		Node[] toSetCursor = {checkBox, choiceBox};
+		for(Node node : toSetCursor) {
+			node.setOnMouseEntered((event) -> {
+				this.setCursor(Cursor.HAND);
+			});
+			node.setOnMouseExited((event) -> {
+				this.setCursor(Cursor.DEFAULT);
+			});
+		}
+		
+		// set Style
+		searchBtn.setStyle("-fx-background-color: #47a2fc; -fx-font-weight: bold; -fx-font-size: 15px;"
+				+ " -fx-text-fill: white");		
+		resetBtn.setStyle("-fx-background-color: #47a2fc; -fx-font-weight: bold; -fx-font-size: 15px;"
+				+ " -fx-text-fill: white");
+		
+		searchBtn.setOnMouseEntered((event) -> {
+			this.setCursor(Cursor.HAND);
+			searchBtn.setStyle("-fx-background-color: #7dbeff; -fx-font-weight: bold; -fx-font-size: 15px;"
+					+ " -fx-text-fill: white");			
+		});
+		resetBtn.setOnMouseEntered((event) -> {
+			this.setCursor(Cursor.HAND);
+			resetBtn.setStyle("-fx-background-color: #7dbeff; -fx-font-weight: bold; -fx-font-size: 15px;"
+					+ " -fx-text-fill: white");			
+		});
+		searchBtn.setOnMouseExited((event) -> {
+			this.setCursor(Cursor.DEFAULT);
+			searchBtn.setStyle("-fx-background-color: #47a2fc; -fx-font-weight: bold; -fx-font-size: 15px;"
+					+ " -fx-text-fill: white");		
+		});
+		resetBtn.setOnMouseExited((event) -> {
+			this.setCursor(Cursor.DEFAULT);
+			resetBtn.setStyle("-fx-background-color: #47a2fc; -fx-font-weight: bold; -fx-font-size: 15px;"
+					+ " -fx-text-fill: white");	
+		});
 	}
 
 	public static void reset() {
@@ -436,17 +470,17 @@ public class MainPage extends Page {
 		checkBox.setSelected(false);
 		choiceBox.setValue(null);
 		if (departSearchBar != null) {
-			MainPage.getInstance().getChildren().remove(departSearchBar);
+			MainPage.getInstance(false).getChildren().remove(departSearchBar);
 			departSearchBar = null;
 		}
 		if (destinySearchBar != null) {
-			MainPage.getInstance().getChildren().remove(destinySearchBar);
+			MainPage.getInstance(false).getChildren().remove(destinySearchBar);
 			destinySearchBar = null;
 		}
 	}
 
-	public static MainPage getInstance() {
-		if (mainPageInstance == null) {
+	public static MainPage getInstance(boolean bool) {
+		if (mainPageInstance == null || bool) {
 			mainPageInstance = new MainPage();
 		}
 		return mainPageInstance;

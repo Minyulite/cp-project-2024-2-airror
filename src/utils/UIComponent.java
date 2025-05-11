@@ -101,6 +101,12 @@ public class UIComponent {
 		return false;
 	}
 	
+	public static void setFont(Label[] arr, Font font) {
+		for (Label node : arr) {
+			node.setFont(font);
+		}
+	}
+	
 	public static DatePicker getDatePicker() {
 		return new DatePicker();
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -76,12 +77,16 @@ public class LoginPage extends Page {
 		this.getChildren().add(loginBtn);
 		
 		LoginPage.setTopLeftAnchor(loginBtn, 1040, 510);
-		loginBtn.setStyle("-fx-background-radius: 20px; -fx-font-size: 15");
 		
+		// set style
+		loginBtn.setStyle("-fx-background-radius: 20px; -fx-font-size: 20; -fx-font-weight: bold;"
+				+ "-fx-background-color: #0a64ad; -fx-text-fill: white");
+		
+		// add EventHandler
 		loginBtn.setOnAction((event) -> {
 			if(passwords.containsKey(usernameField.getText().strip()) && passwords.get(usernameField.getText().strip()).strip().equals(passwordField.getText().strip())) {
 				loginUsername = usernameField.getText().strip();
-				GoTo.goToMainPage();
+				GoTo.goToMainPage(true);
 			}else {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setHeaderText(null);
@@ -90,10 +95,23 @@ public class LoginPage extends Page {
 			}
 		});
 		
+		loginBtn.setOnMouseEntered((event) -> {
+			this.setCursor(Cursor.HAND);
+			loginBtn.setStyle("-fx-background-radius: 20px; -fx-font-size: 20; -fx-font-weight: bold;"
+					+ "-fx-background-color: #5e9ef7; -fx-text-fill: black");
+		});
+		
+		loginBtn.setOnMouseExited((event) -> {
+			this.setCursor(Cursor.DEFAULT);
+			loginBtn.setStyle("-fx-background-radius: 20px; -fx-font-size: 20; -fx-font-weight: bold;"
+					+ "-fx-background-color: #0a64ad; -fx-text-fill: white");
+		});
+		
 		Text signUp = UIComponent.getText("Sign Up?", 15);
 		this.getChildren().add(signUp);
 		LoginPage.setTopLeftAnchor(signUp, 1370, 570);
 		
+		// add EventHandler
 		signUp.setOnMouseClicked((event0) -> {
 			usernameField.setText("");
 			passwordField.setText("");
@@ -105,6 +123,17 @@ public class LoginPage extends Page {
 				passwords.put(usernameField.getText().strip(), passwordField.getText().strip());
 				GoTo.goToLoginPage();
 			});
+		});
+		
+		// set Style
+		signUp.setOnMouseEntered((event) -> {
+			this.setCursor(Cursor.HAND);
+			signUp.setStyle("-fx-fill: #0f73ff; -fx-underline: true;");
+		});
+		
+		signUp.setOnMouseExited((event) -> {
+			this.setCursor(Cursor.DEFAULT);
+			signUp.setStyle("-fx-fill: black; -fx-underline: false;");
 		});
 	}
 	

@@ -15,8 +15,8 @@ import pages.PurchasePage;
 
 public class GoTo {
 
-	public static void goToMainPage() {
-		ScrollPane root = new ScrollPane(MainPage.getInstance());
+	public static void goToMainPage(boolean bool) {
+		ScrollPane root = new ScrollPane(MainPage.getInstance(bool));
 
 		root.setHbarPolicy(ScrollBarPolicy.NEVER);
 		if (MyApplication.getScene() == null) {

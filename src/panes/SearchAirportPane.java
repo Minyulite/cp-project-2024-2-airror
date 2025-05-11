@@ -2,6 +2,7 @@ package panes;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
@@ -41,11 +42,11 @@ public class SearchAirportPane extends VBox implements Searchable {
 				searchEachPane.setOnMouseClicked((event) -> {
 					if(condition[condition.length - 1].equals("1")) {
 						MainPage.departField.setText(airport);
-						MainPage.getInstance().getChildren().remove(MainPage.departSearchBar);
+						MainPage.getInstance(false).getChildren().remove(MainPage.departSearchBar);
 						MainPage.departSearchBar = null;
 					}else {
 						MainPage.destinyField.setText(airport);
-						MainPage.getInstance().getChildren().remove(MainPage.destinySearchBar);
+						MainPage.getInstance(false).getChildren().remove(MainPage.destinySearchBar);
 						MainPage.destinySearchBar = null;
 					}
 				});
@@ -55,9 +56,29 @@ public class SearchAirportPane extends VBox implements Searchable {
 				if (i % 2 == 0) {
 					searchEachPane.setBackground(
 							new Background(new BackgroundFill(Color.web("#d4d1cb"), CornerRadii.EMPTY, Insets.EMPTY)));
+					searchEachPane.setOnMouseEntered((event) -> {
+						this.setCursor(Cursor.HAND);
+						searchEachPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+								CornerRadii.EMPTY, new BorderWidths(1))));
+					});
+					searchEachPane.setOnMouseExited((event) -> {
+						this.setCursor(Cursor.DEFAULT);
+						searchEachPane.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
+								CornerRadii.EMPTY, new BorderWidths(1))));					
+					});
 				} else {
 					searchEachPane.setBackground(
 							new Background(new BackgroundFill(Color.web("#e8e7e6"), CornerRadii.EMPTY, Insets.EMPTY)));
+					searchEachPane.setOnMouseEntered((event) -> {
+						this.setCursor(Cursor.HAND);
+						searchEachPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+								CornerRadii.EMPTY, new BorderWidths(1))));
+					});
+					searchEachPane.setOnMouseExited((event) -> {
+						this.setCursor(Cursor.DEFAULT);
+						searchEachPane.setBorder(new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID,
+								CornerRadii.EMPTY, new BorderWidths(1))));					
+					});
 				}
 				++i;
 			}

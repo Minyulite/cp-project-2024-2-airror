@@ -1,8 +1,15 @@
 package pages;
 
+import java.util.Optional;
+
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -29,7 +36,12 @@ public class AboutUsPage extends Page {
 		
 		setMiddle(gc);
 	}
-
+	
+	@Override
+	public void setStyle() {
+		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
+	}
+	
 	@Override
 	public void setHeader(GraphicsContext gc) {
 		BorderPane borderPane = new BorderPane();
@@ -45,29 +57,53 @@ public class AboutUsPage extends Page {
 
 		header.setAlignment(Pos.CENTER);
 
-		// not yet add EventHandler!!!!!!!!!!!
 		Text home, purchases, aboutUs;
-		ImageView userImageView;
+		ImageView userImageView, logoutImageView;
+		
 		header.getChildren().add(home = UIComponent.getText("Home", 20));
-		home.setOnMouseClicked((e) -> GoTo.goToMainPage());
 		header.getChildren().add(purchases = UIComponent.getText("Purchases", 20));
-		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
 		header.getChildren().add(aboutUs = UIComponent.getText("About us", 20));
+
+		// add EventHandler
+		home.setOnMouseClicked((e) -> GoTo.goToMainPage(false));
+		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
 		aboutUs.setOnMouseClicked((e) -> GoTo.goToAboutUsPage());
 		
 		HBox userProfile = new HBox();
 		
 		userProfile.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
 		userProfile.getChildren().add(UIComponent.getText(LoginPage.loginUsername, 20));
+		userProfile.getChildren().add(logoutImageView = UIComponent.getImageView("img/logout.png", 35, true));
 		userProfile.setSpacing(10);
 		userProfile.setAlignment(Pos.CENTER);
 		
+		logoutImageView.setOnMouseClicked((event) -> {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setHeaderText(null);
+			alert.setContentText("Do you want to leave?");
+			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+			Optional<ButtonType> response = alert.showAndWait();
+			if(response.isPresent() && response.get() == ButtonType.YES) {
+				GoTo.goToLoginPage();
+			}
+		});
+		
+		Node[] toSetStyle = {home, purchases, aboutUs, logoutImageView};
+		Node[] toSetCursor = {home, purchases, aboutUs, logoutImageView};
+		for(Node node : toSetCursor) {
+			node.setOnMouseEntered((event) -> {
+				this.setCursor(Cursor.HAND);
+			});
+			node.setOnMouseExited((event) -> {
+				this.setCursor(Cursor.DEFAULT);
+			});
+		}
+		
 		header.getChildren().add(userProfile);
-		header.setSpacing(30);
+		header.setSpacing(35);
 
 		borderPane.setRight(header);
-//		BorderPane.setAlignment(header, Pos.CENTER);
-		// **header
+		
 		this.getChildren().add(borderPane);
 		MainPage.setLeftAnchor(borderPane, 0.0);
 		MainPage.setRightAnchor(borderPane, 50.0);
@@ -128,11 +164,6 @@ public class AboutUsPage extends Page {
 		this.getChildren().add(description);
 		AboutUsPage.setTopLeftAnchor(description, 760, 620);
 
-	}
-	
-	@Override
-	public void setStyle() {
-		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
 	}
 	
 	public static AboutUsPage getInstance() {

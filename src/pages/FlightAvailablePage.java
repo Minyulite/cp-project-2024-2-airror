@@ -6,17 +6,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -58,8 +63,6 @@ public class FlightAvailablePage extends Page {
 	@Override
 	public void setStyle() {
 		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
-//		this.setPrefHeight(UIComponent.USER_MAX_SCREEN_HEIGHT + 300);
-//		this.setMaxHeight(UIComponent.USER_MAX_SCREEN_HEIGHT + 300);
 	}
 
 	@Override
@@ -77,32 +80,55 @@ public class FlightAvailablePage extends Page {
 
 		header.setAlignment(Pos.CENTER);
 
-		// not yet add EventHandler!!!!!!!!!!!
 		Text home, purchases, aboutUs;
-		ImageView userImageView;
+		ImageView userImageView, logoutImageView;
+		
 		header.getChildren().add(home = UIComponent.getText("Home", 20));
-		home.setOnMouseClicked((e) -> GoTo.goToMainPage());
 		header.getChildren().add(purchases = UIComponent.getText("Purchases", 20));
-		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
 		header.getChildren().add(aboutUs = UIComponent.getText("About us", 20));
-		aboutUs.setOnMouseClicked((e) -> GoTo.goToAboutUsPage());
 
+		// add EventHandler
+		home.setOnMouseClicked((e) -> GoTo.goToMainPage(false));
+		purchases.setOnMouseClicked((e) -> GoTo.goToPurchasePage());
+		aboutUs.setOnMouseClicked((e) -> GoTo.goToAboutUsPage());
+		
 		HBox userProfile = new HBox();
 		
 		userProfile.getChildren().add(userImageView = UIComponent.getImageView("img/user.png", 50, true));
 		userProfile.getChildren().add(UIComponent.getText(LoginPage.loginUsername, 20));
+		userProfile.getChildren().add(logoutImageView = UIComponent.getImageView("img/logout.png", 35, true));
 		userProfile.setSpacing(10);
 		userProfile.setAlignment(Pos.CENTER);
 		
+		logoutImageView.setOnMouseClicked((event) -> {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setHeaderText(null);
+			alert.setContentText("Do you want to leave?");
+			alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+			Optional<ButtonType> response = alert.showAndWait();
+			if(response.isPresent() && response.get() == ButtonType.YES) {
+				GoTo.goToLoginPage();
+			}
+		});
+		
+		Node[] toSetCursor = {home, purchases, aboutUs, logoutImageView};
+		for(Node node : toSetCursor) {
+			node.setOnMouseEntered((event) -> {
+				this.setCursor(Cursor.HAND);
+			});
+			node.setOnMouseExited((event) -> {
+				this.setCursor(Cursor.DEFAULT);
+			});
+		}
+		
 		header.getChildren().add(userProfile);
-		header.setSpacing(30);
+		header.setSpacing(35);
 
 		borderPane.setRight(header);
-//		BorderPane.setAlignment(header, Pos.CENTER);
-		// **header
+		
 		this.getChildren().add(borderPane);
-		FlightAvailablePage.setLeftAnchor(borderPane, 0.0);
-		FlightAvailablePage.setRightAnchor(borderPane, 50.0);
+		MainPage.setLeftAnchor(borderPane, 0.0);
+		MainPage.setRightAnchor(borderPane, 50.0);
 
 		gc.setFill(Color.web("#51abf5"));
 		gc.fillRect(0, 0, UIComponent.USER_MAX_SCREEN_WIDTH, 100);
@@ -131,8 +157,6 @@ public class FlightAvailablePage extends Page {
 		this.getChildren().add(arrow);
 		Label departName = UIComponent.getLabel(departSp[1], 15);
 		Label destinyName = UIComponent.getLabel(destinySp[1], 15);
-//		departName.setFont(Font.font("Verdana", FontWeight.SEMI_BOLD, 15));
-//		destinyName.setFont(Font.font("Verdana", FontWeight.SEMI_BOLD, 15));
 		this.getChildren().addAll(departName, destinyName);
 
 		Map<String, String> months = new HashMap<String, String>();
@@ -169,13 +193,31 @@ public class FlightAvailablePage extends Page {
 		backBtn.setFont(Font.font("Arial", FontWeight.SEMI_BOLD, 20));
 		this.getChildren().add(backBtn);
 		FlightAvailablePage.setTopLeftAnchor(backBtn, UIComponent.USER_MAX_SCREEN_WIDTH - 220, 160);
+		
+		// add EventHandler
 		backBtn.setOnMouseClicked((e) -> {
-//			IOReaderWriter.clearTextFile("res/text/pending.txt");
 			if(PurchasePage.getPendingList().size() > 0) {
 				PurchasePage.getPendingList().remove(PurchasePage.getPendingList().size() - 1);
 			}
 			GoTo.back();
 		});
+		
+		backBtn.setStyle("-fx-background-color: #47a2fc; -fx-font-weight: bold; -fx-font-size: 20px;"
+				+ " -fx-text-fill: white");
+		
+		backBtn.setOnMouseEntered((event) -> {
+			this.setCursor(Cursor.HAND);
+			backBtn.setStyle("-fx-background-color: #7dbeff; -fx-font-weight: bold; -fx-font-size: 20px;"
+					+ " -fx-text-fill: white");	
+		});
+		
+		backBtn.setOnMouseExited((event) -> {
+			this.setCursor(Cursor.DEFAULT);
+			backBtn.setStyle("-fx-background-color: #47a2fc; -fx-font-weight: bold; -fx-font-size: 20px;"
+					+ " -fx-text-fill: white");
+		});
+		
+		// set Style
 
 		gc.setFill(Color.web("#83cff7"));
 		gc.fillRect(300, 340, UIComponent.USER_MAX_SCREEN_WIDTH - 300, UIComponent.USER_MAX_SCREEN_HEIGHT);

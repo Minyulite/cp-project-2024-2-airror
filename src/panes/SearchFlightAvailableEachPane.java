@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -79,6 +80,7 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 		SearchFlightAvailableEachPane.setTopLeftAnchor(imageView, 420, 80);
 		SearchFlightAvailableEachPane.setTopLeftAnchor(durationLabel, 445, 55);
 
+		// add EventHandler
 		selectBtn.setOnMouseClicked((event) -> {
 
 			PurchasePage.getPendingList().add(new PurchaseData(flightData, requestData.getClasses(),
@@ -109,22 +111,29 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 						System.out.println(SearchFlightAvailablePane.getFlightsList().remove(pd.getFlightData()));
 					}
 
-					// delete selected flights data from text file;
-					/***
-					 * we are going to use IOReaderWriter.getListOfFlighData on Text file of
-					 * PurchaseData. Even though it seems not right, but we can use it
-					 ***/
-
 					PurchasePage.getPendingList().clear();
 					MainPage.reset();
-					GoTo.goToMainPage();
+					GoTo.goToMainPage(false);
 				} else {
 					event.consume();
 				}
 
 			}
 		});
-
+		
+		// set Style
+		selectBtn.setStyle("-fx-background-color: #47a2fc; -fx-font-weight: bold; -fx-font-size: 25px;"
+				+ " -fx-text-fill: white");
+		selectBtn.setOnMouseEntered((event) -> {
+			this.setCursor(Cursor.HAND);
+			selectBtn.setStyle("-fx-background-color: #7dbeff; -fx-font-weight: bold; -fx-font-size: 25px;"
+					+ " -fx-text-fill: white");	
+		});
+		selectBtn.setOnMouseExited((event) -> {
+			this.setCursor(Cursor.DEFAULT);
+			selectBtn.setStyle("-fx-background-color: #47a2fc; -fx-font-weight: bold; -fx-font-size: 25px;"
+					+ " -fx-text-fill: white");
+		});
 	}
 
 	public FlightData getFlightData() {
