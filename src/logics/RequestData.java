@@ -13,7 +13,7 @@ public class RequestData {
 	private String classes;
 
 	public RequestData(String departField, String destinyField, LocalDate departDate, LocalDate destinyDate,
-			int adultField, int childrenField, int toddlerField, Boolean isReturn, String classes) {
+			int adultField, int childrenField, int toddlerField, boolean isReturn, String classes) {
 		this.setDepartField(departField.strip());
 		this.setDestinyField(destinyField.strip());
 		this.setDepartDate(departDate);

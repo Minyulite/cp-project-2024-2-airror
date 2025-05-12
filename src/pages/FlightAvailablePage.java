@@ -45,7 +45,7 @@ import utils.UIComponent;
 public class FlightAvailablePage extends Page {
 	
 	public static ArrayList<FlightData> flightsList;
-	private static ArrayList<String> airlinesCondition = new ArrayList<>();
+	public ArrayList<String> airlinesCondition = new ArrayList<>();
 	public static Map<String, String> townName = null;
 	private RequestData requestData;
 
@@ -55,7 +55,7 @@ public class FlightAvailablePage extends Page {
 		this.getChildren().add(this.getCanvas());
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
-		setStyle();
+//		setStyle();
 
 		setHeader(gc);
 
@@ -64,7 +64,7 @@ public class FlightAvailablePage extends Page {
 
 	@Override
 	public void setStyle() {
-		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
+//		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
 	}
 
 	@Override

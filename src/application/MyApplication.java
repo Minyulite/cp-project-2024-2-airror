@@ -41,7 +41,7 @@ import utils.UIComponent;
 public class MyApplication extends Application {
 	
 	private static Scene scene = null;
-	public static Stage stage = null;
+	private static Stage stage = null;
 	private static ArrayList<Parent> listOfRoots = new ArrayList<>();
 	
 	public static void main(String[] args) {

@@ -67,7 +67,7 @@ public class MainPage extends Page {
 	public static CheckBox checkBox = null;
 	public static ChoiceBox<String> choiceBox = null;
 
-	public static Thread adsThread = null;
+//	public static Thread adsThread = null;
 
 	private MainPage() {
 		this.getChildren().add(this.getCanvas());

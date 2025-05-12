@@ -7,7 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import utils.UIComponent;
 
 public abstract class Page extends AnchorPane {
-	public Canvas canvas = null;
+	protected Canvas canvas = null;
 	
 	public abstract void setHeader(GraphicsContext gc);
 

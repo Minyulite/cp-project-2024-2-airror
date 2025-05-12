@@ -52,7 +52,7 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 		Label destinyAbbr = UIComponent.getLabel(flightData.getDestinyAbbr(), 16);
 
 		Label durationLabel = UIComponent.getLabel(UIComponent
-				.intMintoStrHour(UIComponent.getDuration(flightData.getDepartTime(), flightData.getArrivalTime())), 16);
+				.intMinToStrHour(UIComponent.getDuration(flightData.getDepartTime(), flightData.getArrivalTime())), 16);
 		Button selectBtn = UIComponent.getButton("Select");
 		ImageView imageView = UIComponent.getImageView("img/circle_line.png", 16, true);
 
@@ -84,10 +84,9 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 		// add EventHandler
 		selectBtn.setOnMouseClicked((event) -> {
 
-			PurchasePage.getPendingList().add(new PurchaseData(flightData, requestData.getClasses(),
-					requestData.getAdultField(), requestData.getChildrenField(), requestData.getToddlerField()));
 			if (requestData.isReturn()) {
-
+				PurchasePage.getPendingList().add(new PurchaseData(flightData, requestData.getClasses(),
+						requestData.getAdultField(), requestData.getChildrenField(), requestData.getToddlerField()));
 				RequestData returnRequestData = new RequestData(requestData);
 
 				String departField = returnRequestData.getDepartField();
@@ -104,8 +103,13 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 				alert.setHeaderText(null);
 				alert.setContentText("You are ineligible to refund tickets, please make certain before confirming");
 				alert.getButtonTypes().setAll(ButtonType.NO, ButtonType.YES);
+				
 				Optional<ButtonType> response = alert.showAndWait();
+				
 				if (response.isPresent() && response.get() == ButtonType.YES) {
+					PurchasePage.getPendingList().add(new PurchaseData(flightData, requestData.getClasses(),
+							requestData.getAdultField(), requestData.getChildrenField(), requestData.getToddlerField()));
+					
 					for (PurchaseData pd : PurchasePage.getPendingList()) {
 						PurchasePage.getPurchasesList().add(pd);
 						FlightAvailablePage.getFlightsList().remove(pd.getFlightData());
@@ -145,7 +149,7 @@ public class SearchFlightAvailableEachPane extends AnchorPane {
 	}
 
 	public static void setTopLeftAnchor(Node node, double left, double top) {
-		MainPage.setTopAnchor(node, top);
-		MainPage.setLeftAnchor(node, left);
+		AnchorPane.setTopAnchor(node, top);
+		AnchorPane.setLeftAnchor(node, left);
 	}
 }

@@ -210,6 +210,14 @@ public class PurchasePage extends Page {
 			}).start();			
 		});
 		
+		upComingBtn.setOnMouseEntered((event) -> {
+			this.setCursor(Cursor.HAND);
+		});
+		
+		upComingBtn.setOnMouseExited((event) -> {
+			this.setCursor(Cursor.DEFAULT);
+		});
+		
 		pastBtn.setOnMouseClicked((event) -> {
 			new Thread(() -> {
 				ArrayList<Node> selected = new ArrayList<>();
@@ -242,11 +250,20 @@ public class PurchasePage extends Page {
 				});				
 			}).start();			
 		});
+		
+		pastBtn.setOnMouseEntered((event) -> {
+			this.setCursor(Cursor.HAND);
+		});
+		
+		pastBtn.setOnMouseExited((event) -> {
+			this.setCursor(Cursor.DEFAULT);
+		});
 	}
+	
 
 	@Override
 	public void setStyle() {
-		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
+//		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
 	}
 
 	public static ArrayList<PurchaseData> getPendingList() {

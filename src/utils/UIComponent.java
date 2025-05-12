@@ -75,7 +75,7 @@ public class UIComponent {
 		return Integer.parseInt(splitted[0]) * 60 + Integer.parseInt(splitted[1]);
 	}
 	
-	public static String intMintoStrHour(int time) {
+	public static String intMinToStrHour(int time) {
 		int hour = time / 60;
 		int min = time % 60;
 		return hour + (hour > 1? " hrs " : " hr ") + min + (min <= 1? " min" : " mins");

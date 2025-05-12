@@ -33,10 +33,8 @@ public class LoginPage extends Page {
 	public static String loginUsername = null;
 	
 	public LoginPage() {
-		BackgroundImage myBackground = new BackgroundImage(new Image(ClassLoader.getSystemResource("img/login_background_half.png").toString(), UIComponent.USER_MAX_SCREEN_WIDTH * 2 / 3, UIComponent.USER_MAX_SCREEN_HEIGHT, true, false),
-				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-				BackgroundSize.DEFAULT);
-		this.setBackground(new Background(myBackground));
+		
+		setStyle();
 		
 		ImageView airrorLogo = UIComponent.getImageView("img/logo_real.png", 150, true);
 		this.getChildren().add(airrorLogo);
@@ -147,7 +145,10 @@ public class LoginPage extends Page {
 	@Override
 	public void setStyle() {
 		// TODO Auto-generated method stub
-		
+		BackgroundImage myBackground = new BackgroundImage(new Image(ClassLoader.getSystemResource("img/login_background_half.png").toString(), UIComponent.USER_MAX_SCREEN_WIDTH * 2 / 3, UIComponent.USER_MAX_SCREEN_HEIGHT, true, false),
+				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
+		this.setBackground(new Background(myBackground));
 	}
 
 	public static Map<String, String> getPasswords() {

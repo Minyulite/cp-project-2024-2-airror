@@ -39,7 +39,7 @@ public class AboutUsPage extends Page {
 	
 	@Override
 	public void setStyle() {
-		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
+//		this.setMaxWidth(UIComponent.USER_MAX_SCREEN_WIDTH);
 	}
 	
 	@Override

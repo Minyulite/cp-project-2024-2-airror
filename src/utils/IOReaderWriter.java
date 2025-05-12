@@ -117,36 +117,6 @@ public class IOReaderWriter {
 		return flightsList;
 	}
 
-//	public static ArrayList<PurchaseData> getListOfPurchaseData(String path) {
-//		ArrayList<PurchaseData> purchasesList = new ArrayList<>();
-//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//		try {
-//			InputStream in = IOReaderWriter.class.getResourceAsStream(path);
-//			if (in == null) {
-//				throw new Exception();
-//			}
-//			sc = new Scanner(new BufferedReader(new InputStreamReader(in)));
-//			while (sc.hasNextLine()) {
-//				String[] splitted = sc.nextLine().strip().split(",");
-//				String[] path1 = splitted[4].split(" ");
-//				String imageViewPath = "img/" + path1[0] + "_" + path1[1] + ".png";
-////				System.out.println(imageViewPath);
-//				FlightData flightData = new FlightData(splitted[0], splitted[1], splitted[2], splitted[3], splitted[4],
-//						UIComponent.getImageView(imageViewPath, 80, true), splitted[5], splitted[6],
-//						Double.parseDouble(splitted[7]), LocalDate.parse(splitted[8], formatter));
-//				purchasesList.add(new PurchaseData(flightData, splitted[9], Integer.parseInt(splitted[10]),
-//						Integer.parseInt(splitted[11]), Integer.parseInt(splitted[12])));
-//			}
-//			sc.close();
-//		} catch (Exception e) {
-//			Alert alert = new Alert(AlertType.ERROR);
-//			alert.setHeaderText(null);
-//			alert.setContentText("FILE NOT FOUND");
-//			alert.showAndWait();
-//		}
-//		return purchasesList;
-//	}
-
 	public static ArrayList<PurchaseData> getListOfPurchaseDataExternally(String fileName) throws Exception {
 		ArrayList<PurchaseData> purchasesList = new ArrayList<>();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
